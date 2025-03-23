@@ -31,16 +31,16 @@ sample_eEPSC_data <- read.csv("data/TW/TWData.csv")
 
 sample_eEPSC_data
 ```
-
-Add new cells aka merge (problems)
 ```{r}
 first_time_df <- add_new_cells(
-  new_raw_data_csv = "data/TW/merged.csv",
+  new_raw_data_csv = "data/TW/TWData.csv",
   cell_characteristics_csv = "data/TW/Cell-CharacteristicsTW.csv",
-  old_raw_data_csv = "data/TW/TWData.csv",
+  old_raw_data_csv = "data/TW/merged.csv",
   data_type = "eEPSC",
   write_new_csv = "no",
   new_file_name = "",
   decimal_places = 2
 )
 ```
+
+
