@@ -42,5 +42,18 @@ first_time_df <- add_new_cells(
   decimal_places = 2
 )
 ```
+To automatically append new data onto your existing sheet and save as new csv to data subfolder
+```{r}
+#add_new_cells(
+  #new_raw_data_csv = "sample_new_eEPSC_data.csv",
+  #cell_characteristics_csv = "sample_cell_characteristics.csv",
+  #old_raw_data_csv = "Data/Raw-eEPSC-df.csv",
+  #data_type = "eEPSC",
+  #write_new_csv = "no",
+  #new_file_name = "",
+  #decimal_places = 2
+)
+```
+
 
 
