@@ -44,4 +44,3 @@ first_time_df <- add_new_cells(
   decimal_places = 2
 )
 ```
-
