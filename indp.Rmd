@@ -73,10 +73,10 @@ To automatically append new data onto your existing sheet and save as new csv to
 add_new_cells(
   new_raw_data_csv = "data/RM/RMData.csv",
   cell_characteristics_csv = "data/Cell-Characteristics.csv",
-  old_raw_data_csv = "Data/Raw-eEPSC.csv",
+  old_raw_data_csv = "data/Raw-eEPSC.csv",
   data_type = "eEPSC",
-  write_new_csv = "no",
-  new_file_name = "",
+  write_new_csv = "yes",
+  new_file_name = "data/Raw-eEPSC.csv",
   decimal_places = 2
 )
 ```
