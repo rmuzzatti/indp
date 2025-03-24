@@ -37,8 +37,8 @@ first_time_df <- add_new_cells(
   cell_characteristics_csv = "data/TW/Cell-CharacteristicsTW.csv",
   old_raw_data_csv = "data/TW/merged.csv",
   data_type = "eEPSC",
-  write_new_csv = "no",
-  new_file_name = "",
+  write_new_csv = "yes",
+  new_file_name = "data/Raw-eEPSC.csv",
   decimal_places = 2
 )
 ```
@@ -52,8 +52,6 @@ To automatically append new data onto your existing sheet and save as new csv to
   #write_new_csv = "no",
   #new_file_name = "",
   #decimal_places = 2
-)
+#)
 ```
-
-
 
