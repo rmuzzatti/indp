@@ -16,67 +16,40 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ```{r}
 library(patchclampplotteR)
+library(dplyr)
 ```
 
-Cell Characteristics (working fine)
+Cell Characteristics (all)
 ```{r}
 cell_characteristics <- import_cell_characteristics_df("data/Cell-Characteristics.csv")
 
 cell_characteristics
 ```
 
-Raw evoked current data (working)
-```{r}
-sample_eEPSC_data <- read.csv("data/TW/TWData.csv")
-
-sample_eEPSC_data
-```
-```{r}
-first_time_df <- add_new_cells(
-  new_raw_data_csv = "data/TW/TWData.csv",
-  cell_characteristics_csv = "data/Cell-Characteristics.csv",
-  old_raw_data_csv = "data/TW/merged.csv",
-  data_type = "eEPSC",
-  write_new_csv = "yes",
-  new_file_name = "data/Raw-eEPSC.csv",
-  decimal_places = 2
-)
-```
-To automatically append new data onto your existing sheet and save as new csv to data subfolder
-```{r}
-#add_new_cells(
-  #new_raw_data_csv = "sample_new_eEPSC_data.csv",
-  #cell_characteristics_csv = "sample_cell_characteristics.csv",
-  #old_raw_data_csv = "Data/Raw-eEPSC-df.csv",
-  #data_type = "eEPSC",
-  #write_new_csv = "no",
-  #new_file_name = "",
-  #decimal_places = 2
-#)
-```
-
-Cell Characteristics (RM)
-```{r}
-cell_characteristics <- import_cell_characteristics_df("data/Cell-Characteristics.csv")
-
-cell_characteristics
-```
 Raw evoked current data (RM)
 ```{r}
-sample_eEPSC_data <- read.csv("data/RM/RMData.csv")
-
-sample_eEPSC_data
+raw_eEPSC_df <- read.csv("data/rraw-eEPSC.csv")
 ```
 
 To automatically append new data onto your existing sheet and save as new csv to data subfolder
-```{r}
+```{r eval=FALSE}
 add_new_cells(
   new_raw_data_csv = "data/RM/RMData.csv",
   cell_characteristics_csv = "data/Cell-Characteristics.csv",
-  old_raw_data_csv = "data/Raw-eEPSC.csv",
+  old_raw_data_csv = "data/rraw-eEPSC.csv",
   data_type = "eEPSC",
   write_new_csv = "yes",
-  new_file_name = "data/Raw-eEPSC.csv",
+  new_file_name = "data/rraw-eEPSC.csv",
   decimal_places = 2
 )
 ```
+
+```{r}
+raw_eEPSC_df %>%
+  filter(category == 1) %>%
+  filter(time == 0) %>%
+ group_by(treatment) %>%
+  count(sex) %>%
+  arrange(treatment, sex)
+```
+
