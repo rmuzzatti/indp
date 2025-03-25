@@ -63,3 +63,68 @@ add_new_cells(
   decimal_places = 2
 )
 ```
+
+```{r}
+my_theme_colours <- data.frame(
+  category = c(1, 5),
+    treatment = c("Cold", "Control"),
+  display_names = c("Cold", "Control"),
+  colours = c("#eb647e", "#005b96"),
+  very_pale_colours = c("#f19cac", "#6497b1")
+)
+```
+
+```{r}
+raw_eEPSC_df <- make_normalized_EPSC_data(
+  filename = "data/rraw-eEPSC.csv",
+  current_type = "eEPSC",
+  min_time_value = 0,
+  max_time_value = 25,
+  interval_length = 5,
+  baseline_length = 5,
+  negative_transform_currents = "yes"
+)
+```
+
+```{r}
+raw_eEPSC_control_plots <- plot_raw_current_data(
+  data = raw_eEPSC_df,
+  plot_treatment = "Control",
+  plot_category = 5,
+  current_type = "eEPSC",
+  y_variable = "P1",
+  pruned = "no",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  theme_options = sample_theme_options,
+  treatment_colour_theme = sample_treatment_names_and_colours,
+  save_plot_png = "no"
+)
+```
+
+```{r}
+pruned_eEPSC_df <- make_pruned_EPSC_data(
+  data = raw_eEPSC_df,
+  current_type = "eEPSC",
+  min_time_value = 0,
+  max_time_value = 25,
+  baseline_length = 5,
+  interval_length = 1
+)
+```
+
+```{r}
+pruned_eEPSC_control_plots <- plot_raw_current_data(
+  data = sample_pruned_eEPSC_df$individual_cells,
+  plot_treatment = "Control",
+  plot_category = 5,
+  current_type = "eEPSC",
+  y_variable = "mean_P1",
+  pruned = "yes",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  theme_options = sample_theme_options,
+  treatment_colour_theme = sample_treatment_names_and_colours
+)
+```
+
