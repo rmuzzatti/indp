@@ -46,13 +46,13 @@ add_new_cells(
 
 ```{r}
 raw_eEPSC_df %>%
-  filter(category == 1) %>%
+  filter(category == 5) %>%
   filter(time == 0) %>%
  group_by(treatment) %>%
   count(sex) %>%
   arrange(treatment, sex)
 ```
-```{r}
+```{r eval=FALSE}
 add_new_cells(
   new_raw_data_csv = "data/Raw-eEPSC-naive.csv",
   cell_characteristics_csv = "data/Cell-Characteristics.csv",
