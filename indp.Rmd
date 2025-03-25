@@ -52,4 +52,14 @@ raw_eEPSC_df %>%
   count(sex) %>%
   arrange(treatment, sex)
 ```
-
+```{r}
+add_new_cells(
+  new_raw_data_csv = "data/Raw-eEPSC-naive.csv",
+  cell_characteristics_csv = "data/Cell-Characteristics.csv",
+  old_raw_data_csv = "data/rraw-eEPSC.csv",
+  data_type = "eEPSC",
+  write_new_csv = "yes",
+  new_file_name = "data/rraw-eEPSC.csv",
+  decimal_places = 2
+)
+```
