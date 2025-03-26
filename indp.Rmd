@@ -128,3 +128,7 @@ pruned_eEPSC_control_plots <- plot_raw_current_data(
 )
 ```
 
+```{r}
+pak::pak("christelinda-laureijs/patchclampplotteR")
+```
+
