@@ -91,8 +91,7 @@ raw_eEPSC_df <- make_normalized_EPSC_data(
 Naive Plots:
 ```{r}
 raw_eEPSC_control_plots <- plot_raw_current_data(
-  data = raw_eEPSC_df,
-  filter(sex == "Female"),
+  data = raw_eEPSC_df %>% filter(sex == "Female"),
   plot_treatment = "Control",
   plot_category = 1,
   current_type = "eEPSC",
@@ -105,11 +104,12 @@ raw_eEPSC_control_plots <- plot_raw_current_data(
 )
 
 raw_eEPSC_control_plots
+
 ```
 Cold Plots:
 ```{r}
 raw_eEPSC_cold_plots <- plot_raw_current_data(
-  data = raw_eEPSC_df,
+  data = raw_eEPSC_df %>% filter(sex == "Female"),
   plot_treatment = "Control",
   plot_category = 2,
   current_type = "eEPSC",
@@ -126,7 +126,7 @@ raw_eEPSC_cold_plots
 Prune Data:
 ```{r}
 pruned_eEPSC_df <- make_pruned_EPSC_data(
-  data = raw_eEPSC_df,
+  data = raw_eEPSC_df %>% filter(sex == "Female"),
   current_type = "eEPSC",
   min_time_value = 0,
   max_time_value = 25,
@@ -173,4 +173,31 @@ pruned_eEPSC_cold_plots <- plot_raw_current_data(
 pruned_eEPSC_cold_plots
 ```
 
+
+summary eEPSC data:
+```{r}
+summary_eEPSC_df <- make_summary_EPSC_data(
+  data = raw_eEPSC_df %>% filter(sex == "Female"),
+  current_type = "eEPSC",
+  save_output_as_RDS = "no",
+  baseline_interval = "t0to5",
+  ending_interval = "t20to25"
+)
+summary_eEPSC_df
+```
+
+```{r}
+perform_t_tests_for_summary_plot(
+  data = summary_eEPSC_df$summary_data,
+  test_category = 1,
+  include_all_treatments = "no",
+  list_of_treatments = c("Control"),
+  current_type = "eEPSC",
+  parameter = "amplitude",
+  baseline_interval = "t0to5",
+  interval_length = 5,
+  treatment_colour_theme = my_theme_colours,
+  save_output_as_RDS = "no"
+)
+```
 
