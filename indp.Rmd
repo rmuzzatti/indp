@@ -213,10 +213,8 @@ t_test_female_naive
 
 t-test for cold (full cells only)
 ```{r}
-#t_test_cold_df <- summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")) %>% filter(time <= 25)
-
 t_test_female_cold <- perform_t_tests_for_summary_plot(
-  data = t_test_cold_df,
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")),
   test_category = 2,
   include_all_treatments = "yes",
   list_of_treatments = NULL,
