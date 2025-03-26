@@ -155,7 +155,7 @@ pruned_eEPSC_control_plots <- plot_raw_current_data(
 pruned_eEPSC_control_plots
 ```
 CELL GROUPS:
-```{r}
+```{r eval=FALSE}
 naive_female_long <- pruned_eEPSC_df$individual_cells %>% filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH"))
 
 cold_female_long <- pruned_eEPSC_df$individual_cells %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9"))
@@ -193,8 +193,9 @@ summary_eEPSC_df <- make_summary_EPSC_data(
 summary_eEPSC_df
 ```
 
-```{r eval}
-perform_t_tests_for_summary_plot(
+t-test for naive:
+```{r}
+t_test_female_naive <-perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data,
   test_category = 1,
   include_all_treatments = "no",
@@ -206,18 +207,16 @@ perform_t_tests_for_summary_plot(
   treatment_colour_theme = my_theme_colours,
   save_output_as_RDS = "no"
 )
+
+t_test_female_naive
 ```
 
-```{r eval}
-t_test_df <- summary_eEPSC_df$summary_data
-list_of_long_recordings <- unique(t_test_df$letter)
+t-test for cold (full cells only)
+```{r}
+#t_test_cold_df <- summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")) %>% filter(time <= 25)
 
-t_test_df <- summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7")) %>% filter(time <= 25)
-
-
-
-t_test_female <- perform_t_tests_for_summary_plot(
-  data = t_test_df %>% filter(sex == "Female"),
+t_test_female_cold <- perform_t_tests_for_summary_plot(
+  data = t_test_cold_df,
   test_category = 2,
   include_all_treatments = "yes",
   list_of_treatments = NULL,
@@ -228,6 +227,7 @@ t_test_female <- perform_t_tests_for_summary_plot(
   treatment_colour_theme = my_theme_colours,
   save_output_as_RDS = "no"
 )
+t_test_female_cold
 ```
 
 Naive Summary:
@@ -245,7 +245,7 @@ plot_summary_current_data(
   representative_trace_filename = import_ext_data("Control-trace.png"),
   y_axis_limit = 225,
   signif_stars = "no",
-  t_test_df = t_test_female,
+  t_test_df = t_test_female_naive,
   large_axis_text = "no",
   shade_intervals = "no",
   treatment_colour_theme = my_theme_colours,
@@ -267,8 +267,8 @@ plot_summary_current_data(
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
   y_axis_limit = 225,
-  signif_stars = "no",
-  t_test_df = t_test_female,
+  signif_stars = "yes",
+  t_test_df = t_test_female_cold,
   large_axis_text = "no",
   shade_intervals = "no",
   treatment_colour_theme = my_theme_colours,
