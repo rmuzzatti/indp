@@ -154,6 +154,14 @@ pruned_eEPSC_control_plots <- plot_raw_current_data(
 
 pruned_eEPSC_control_plots
 ```
+CELL GROUPS:
+```{r}
+naive_female_long <- pruned_eEPSC_df$individual_cells %>% filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH"))
+
+cold_female_long <- pruned_eEPSC_df$individual_cells %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9"))
+
+cold_female_short <- pruned_eEPSC_df$individual_cells %>% filter(letter %in% c("RM100", "RM101", "RM102", "RM103", "RM104"))
+```
 
 Plot Pruned Data of Cold:
 ```{r}
@@ -173,7 +181,6 @@ pruned_eEPSC_cold_plots <- plot_raw_current_data(
 pruned_eEPSC_cold_plots
 ```
 
-
 summary eEPSC data:
 ```{r}
 summary_eEPSC_df <- make_summary_EPSC_data(
@@ -186,7 +193,7 @@ summary_eEPSC_df <- make_summary_EPSC_data(
 summary_eEPSC_df
 ```
 
-```{r}
+```{r eval}
 perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data,
   test_category = 1,
@@ -201,3 +208,71 @@ perform_t_tests_for_summary_plot(
 )
 ```
 
+```{r eval}
+t_test_df <- summary_eEPSC_df$summary_data
+list_of_long_recordings <- unique(t_test_df$letter)
+
+t_test_df <- summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7")) %>% filter(time <= 25)
+
+
+
+t_test_female <- perform_t_tests_for_summary_plot(
+  data = t_test_df %>% filter(sex == "Female"),
+  test_category = 2,
+  include_all_treatments = "yes",
+  list_of_treatments = NULL,
+  current_type = "eEPSC",
+  parameter = "amplitude",
+  baseline_interval = "t0to5",
+  interval_length = 5,
+  treatment_colour_theme = my_theme_colours,
+  save_output_as_RDS = "no"
+)
+```
+
+Naive Summary:
+```{r}
+plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells ,
+  plot_category = 1,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  included_sexes = "both",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  y_axis_limit = 225,
+  signif_stars = "no",
+  t_test_df = t_test_female,
+  large_axis_text = "no",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = sample_theme_options
+)
+
+```
+Cold Summary:
+```{r}
+plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells ,
+  plot_category = 2,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  included_sexes = "both",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  y_axis_limit = 225,
+  signif_stars = "no",
+  t_test_df = t_test_female,
+  large_axis_text = "no",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = sample_theme_options
+)
+
+```
