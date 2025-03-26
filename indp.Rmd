@@ -34,7 +34,7 @@ raw_eEPSC_df <- read.csv("data/rraw-eEPSC.csv")
 To automatically append new data onto your existing sheet and save as new csv to data subfolder
 ```{r eval=FALSE}
 add_new_cells(
-  new_raw_data_csv = "data/RM/RMData.csv",
+  new_raw_data_csv = "data/rraw-eEPSC.csv",
   cell_characteristics_csv = "data/Cell-Characteristics.csv",
   old_raw_data_csv = "data/rraw-eEPSC.csv",
   data_type = "eEPSC",
@@ -44,35 +44,37 @@ add_new_cells(
 )
 ```
 
+how many naive cells
 ```{r}
 raw_eEPSC_df %>%
-  filter(category == 5) %>%
+  filter(category == 1) %>%
+  filter(treatment == "Control") %>%
   filter(time == 0) %>%
  group_by(treatment) %>%
   count(sex) %>%
   arrange(treatment, sex)
 ```
-```{r eval=FALSE}
-add_new_cells(
-  new_raw_data_csv = "data/Raw-eEPSC-naive.csv",
-  cell_characteristics_csv = "data/Cell-Characteristics.csv",
-  old_raw_data_csv = "data/rraw-eEPSC.csv",
-  data_type = "eEPSC",
-  write_new_csv = "yes",
-  new_file_name = "data/rraw-eEPSC.csv",
-  decimal_places = 2
-)
+how many cold cells
+```{r}
+raw_eEPSC_df %>%
+  filter(category == 2) %>%
+  filter(treatment == "Control") %>%
+  filter(time == 0) %>%
+ group_by(treatment) %>%
+  count(sex) %>%
+  arrange(treatment, sex)
 ```
 
 ```{r}
 my_theme_colours <- data.frame(
-  category = c(1, 5),
-    treatment = c("Control", "Cold"),
-  display_names = c("Control", "Cold"),
+  category = c(1, 2),
+    treatment = c("Control", "Control"),
+  display_names = c("Naive", "Cold"),
   colours = c("#eb647e", "#005b96"),
   very_pale_colours = c("#f19cac", "#6497b1")
 )
 ```
+
 
 ```{r}
 raw_eEPSC_df <- make_normalized_EPSC_data(
@@ -85,3 +87,90 @@ raw_eEPSC_df <- make_normalized_EPSC_data(
   negative_transform_currents = "yes"
 )
 ```
+
+Naive Plots:
+```{r}
+raw_eEPSC_control_plots <- plot_raw_current_data(
+  data = raw_eEPSC_df,
+  filter(sex == "Female"),
+  plot_treatment = "Control",
+  plot_category = 1,
+  current_type = "eEPSC",
+  y_variable = "P1",
+  pruned = "no",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  theme_options = sample_theme_options,
+  treatment_colour_theme = my_theme_colours
+)
+
+raw_eEPSC_control_plots
+```
+Cold Plots:
+```{r}
+raw_eEPSC_cold_plots <- plot_raw_current_data(
+  data = raw_eEPSC_df,
+  plot_treatment = "Control",
+  plot_category = 2,
+  current_type = "eEPSC",
+  y_variable = "P1",
+  pruned = "no",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  theme_options = sample_theme_options,
+  treatment_colour_theme = my_theme_colours
+)
+
+raw_eEPSC_cold_plots
+```
+Prune Data:
+```{r}
+pruned_eEPSC_df <- make_pruned_EPSC_data(
+  data = raw_eEPSC_df,
+  current_type = "eEPSC",
+  min_time_value = 0,
+  max_time_value = 25,
+  baseline_length = 5,
+  interval_length = 1
+)
+
+pruned_eEPSC_df$individual_cells
+```
+
+Plot Pruned Data of Naive:
+```{r}
+pruned_eEPSC_control_plots <- plot_raw_current_data(
+  data = pruned_eEPSC_df$individual_cells,
+  plot_treatment = "Control",
+  plot_category = 1,
+  current_type = "eEPSC",
+  y_variable = "mean_P1",
+  pruned = "yes",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  theme_options = sample_theme_options,
+  treatment_colour_theme = my_theme_colours
+)
+
+pruned_eEPSC_control_plots
+```
+
+Plot Pruned Data of Cold:
+```{r}
+pruned_eEPSC_cold_plots <- plot_raw_current_data(
+  data = pruned_eEPSC_df$individual_cells,
+  plot_treatment = "Control",
+  plot_category = 2,
+  current_type = "eEPSC",
+  y_variable = "mean_P1",
+  pruned = "yes",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  theme_options = sample_theme_options,
+  treatment_colour_theme = my_theme_colours
+)
+
+pruned_eEPSC_cold_plots
+```
+
+
