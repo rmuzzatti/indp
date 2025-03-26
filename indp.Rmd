@@ -356,3 +356,7 @@ plot_baseline_data(
   save_plot_png = "no"
 )
 ```
+TO DO:
+Plot a representative recording trace showing spontaneous currents (https://christelinda-laureijs.github.io/patchclampplotteR/index.html)
+Plot action potential trace
+AP frequency (https://christelinda-laureijs.github.io/patchclampplotteR/articles/action-potential-analysis.html?q=action#count)
