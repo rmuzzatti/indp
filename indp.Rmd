@@ -252,6 +252,7 @@ plot_summary_current_data(
 
 ```
 Cold Summary:
+currrently plotting all 14 cells but the t-test is only for the full cells
 ```{r}
 plot_summary_current_data(
   data = pruned_eEPSC_df$all_cells ,
@@ -273,4 +274,85 @@ plot_summary_current_data(
   theme_options = sample_theme_options
 )
 
+```
+
+make PPR dataset:
+```{r}
+PPR_df <- make_PPR_data(
+  data = raw_eEPSC_df,
+  include_all_treatments = "no",
+  list_of_treatments = c("Control"),
+  PPR_min = 0,
+  PPR_max = 5,
+  baseline_interval = "t0to5",
+  post_hormone_interval = "t20to25",
+  treatment_colour_theme = my_theme_colours
+)
+PPR_df
+```
+
+plot PPR data for naive:
+```{r}
+plot_PPR_data_single_treatment(
+  data = PPR_df,
+  plot_treatment = "Control",
+  plot_category = 1,
+  baseline_label = "Baseline",
+  post_hormone_label = "HFS",
+  test_type = "t.test",
+  large_axis_text = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = sample_theme_options,
+  save_plot_png = "no"
+)
+```
+plot PPR data for cold:
+```{r}
+plot_PPR_data_single_treatment(
+  data = PPR_df,
+  plot_treatment = "Control",
+  plot_category = 2,
+  baseline_label = "Baseline",
+  post_hormone_label = "HFS",
+  test_type = "t.test",
+  large_axis_text = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = sample_theme_options,
+  save_plot_png = "no"
+)
+```
+
+Naive baseline:
+```{r}
+plot_baseline_data(
+  data = summary_eEPSC_df$summary_data,
+  current_type = "eEPSC",
+  plot_category = 1,
+  y_variable = "raw_amplitude",
+  include_all_treatments = "yes",
+  list_of_treatments = NULL,
+  baseline_interval = "t0to5",
+  large_axis_text = "no",
+  plot_width = 8,
+  treatment_colour_theme = my_theme_colours,
+  theme_options = sample_theme_options,
+  save_plot_png = "no"
+)
+```
+Cold baseline:
+```{r}
+plot_baseline_data(
+  data = summary_eEPSC_df$summary_data,
+  current_type = "eEPSC",
+  plot_category = 2,
+  y_variable = "raw_amplitude",
+ include_all_treatments = "no",
+  list_of_treatments = c("Control"),
+  baseline_interval = "t0to5",
+  large_axis_text = "no",
+  plot_width = 8,
+  treatment_colour_theme = my_theme_colours,
+  theme_options = sample_theme_options,
+  save_plot_png = "no"
+)
 ```
