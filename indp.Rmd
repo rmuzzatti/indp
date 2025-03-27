@@ -394,18 +394,19 @@ female_PPR_df %>%
   filter(category %in% c(1,2)) %>%
   ggplot(aes(x = factor(category), y = PPR)) +  
 
+   geom_boxplot(aes(fill = factor(category)), 
+               alpha = 0.5, 
+               #outlier.shape = NA, 
+               color = "black", 
+               width = 0.5, 
+               show.legend = FALSE) + 
+  
   geom_sina(aes(x = factor(category), color = factor(category)), 
             max_width = 0.2, 
             shape = 16, 
             size = 2, 
             show.legend = FALSE) +  
   
-  geom_boxplot(aes(fill = factor(category)), 
-               alpha = 0.5, 
-               #outlier.shape = NA, 
-               color = "black", 
-               width = 0.5, 
-               show.legend = FALSE) + 
 
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
@@ -414,7 +415,7 @@ female_PPR_df %>%
 
   guides(fill = "none", color = "none") +
   
-  labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
+  labs(x = NULL, y = "Baseline Paired Pulse Ratio (unit)") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
 
