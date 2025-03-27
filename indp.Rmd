@@ -17,6 +17,10 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r}
 library(patchclampplotteR)
 library(dplyr)
+library(ggplot2)
+library(ggsignif)
+library(ggtext)
+library(ggforce)
 ```
 
 Cell Characteristics (all)
@@ -64,7 +68,7 @@ raw_eEPSC_df %>%
   count(sex) %>%
   arrange(treatment, sex)
 ```
-
+defining my colour theme
 ```{r}
 my_theme_colours <- data.frame(
   category = c(1, 2),
@@ -74,6 +78,7 @@ my_theme_colours <- data.frame(
   very_pale_colours = c("#f19cac", "#6497b1")
 )
 ```
+
 
 
 ```{r}
@@ -90,22 +95,23 @@ raw_eEPSC_df <- make_normalized_EPSC_data(
 
 Naive Plots:
 ```{r}
-raw_eEPSC_control_plots <- plot_raw_current_data(
-  data = raw_eEPSC_df %>% filter(sex == "Female"),
-  plot_treatment = "Control",
-  plot_category = 1,
-  current_type = "eEPSC",
-  y_variable = "P1",
-  pruned = "no",
-  hormone_added = "HFS",
-  hormone_or_HFS_start_time = 5,
-  theme_options = sample_theme_options,
-  treatment_colour_theme = my_theme_colours
-)
+#raw_eEPSC_control_plots <- plot_raw_current_data(
+ # data = raw_eEPSC_df %>% filter(sex == "Female"),
+  #plot_treatment = "Control",
+#  plot_category = 1,
+ # current_type = "eEPSC",
+#  y_variable = "P1",
+#  pruned = "no",
+#  hormone_added = "HFS",
+#  hormone_or_HFS_start_time = 5,
+#  theme_options = sample_theme_options,
+#  treatment_colour_theme = my_theme_colours
+#)
 
-raw_eEPSC_control_plots
+# raw_eEPSC_control_plots
 
 ```
+
 Cold Plots:
 ```{r}
 raw_eEPSC_cold_plots <- plot_raw_current_data(
@@ -123,10 +129,11 @@ raw_eEPSC_cold_plots <- plot_raw_current_data(
 
 raw_eEPSC_cold_plots
 ```
-Prune FEMALE Data:
+
+Prune COLD FEMALE Data:
 ```{r}
-pruned_female_eEPSC_df <- make_pruned_EPSC_data(
-  data = raw_eEPSC_df %>% filter(sex == "Female"),
+pruned_cold_female_eEPSC_df <- make_pruned_EPSC_data(
+  data = raw_eEPSC_df %>% filter(sex == "Female")%>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")),
   current_type = "eEPSC",
   min_time_value = 0,
   max_time_value = 25,
@@ -134,40 +141,28 @@ pruned_female_eEPSC_df <- make_pruned_EPSC_data(
   interval_length = 1
 )
 
-pruned_female_eEPSC_df$individual_cells
-```
-Prune MALE Data:
-```{r}
-pruned_male_eEPSC_df <- make_pruned_EPSC_data(
-  data = raw_eEPSC_df %>% filter(sex == "Male"),
-  current_type = "eEPSC",
-  min_time_value = 0,
-  max_time_value = 25,
-  baseline_length = 5,
-  interval_length = 1
-)
-
-pruned_male_eEPSC_df$individual_cells
+pruned_cold_female_eEPSC_df$individual_cells
 ```
 
 
 Plot Pruned Data of Naive FEMALE:
 ```{r}
-pruned_female_eEPSC_df_control_plots <- plot_raw_current_data(
-  data = pruned_female_eEPSC_df$individual_cells,
-  plot_treatment = "Control",
-  plot_category = 1,
-  current_type = "eEPSC",
-  y_variable = "mean_P1",
-  pruned = "yes",
-  hormone_added = "HFS",
-  hormone_or_HFS_start_time = 5,
-  theme_options = sample_theme_options,
-  treatment_colour_theme = my_theme_colours
-)
+#pruned_female_eEPSC_df_control_plots <- plot_raw_current_data(
+#  data = pruned_female_eEPSC_df$individual_cells,
+#  plot_treatment = "Control",
+#  plot_category = 1,
+#  current_type = "eEPSC",
+#  y_variable = "mean_P1",
+# pruned = "yes",
+#  hormone_added = "HFS",
+#  hormone_or_HFS_start_time = 5,
+#  theme_options = sample_theme_options,
+#  treatment_colour_theme = my_theme_colours
+#)
 
-pruned_female_eEPSC_df_control_plots
+#pruned_female_eEPSC_df_control_plots
 ```
+
 CELL GROUPS:
 ```{r eval=FALSE}
 naive_female_long <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH"))
@@ -178,9 +173,9 @@ cold_female_short <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %
 ```
 
 Plot Pruned Data of Cold FEMALE:
-```{r}
-pruned_female_eEPSC_df_cold_plots <- plot_raw_current_data(
-  data = pruned_female_eEPSC_df$individual_cells,
+```{r eval=FALSE}
+pruned_cold_female_eEPSC_df_plots <- plot_raw_current_data(
+  data = pruned_cold_female_eEPSC_df$individual_cells,
   plot_treatment = "Control",
   plot_category = 2,
   current_type = "eEPSC",
@@ -192,10 +187,10 @@ pruned_female_eEPSC_df_cold_plots <- plot_raw_current_data(
   treatment_colour_theme = my_theme_colours
 )
 
-pruned_female_eEPSC_df_cold_plots
+pruned_cold_female_eEPSC_df_plots
 ```
 
-FEMALE summary eEPSC data:
+all cells FEMALE summary eEPSC data:
 ```{r}
 summary_female_eEPSC_df <- make_summary_EPSC_data(
   data = raw_eEPSC_df %>% filter(sex == "Female"),
@@ -208,7 +203,7 @@ summary_female_eEPSC_df
 ```
 
 MALE summary eEPSC data:
-```{r}
+```{r eval=FALSE}
 summary_male_eEPSC_df <- make_summary_EPSC_data(
   data = raw_eEPSC_df %>% filter(sex == "Male"),
   current_type = "eEPSC",
@@ -220,7 +215,7 @@ summary_male_eEPSC_df
 ```
 
 t-test for naive FEMALE:
-```{r}
+```{r eval=FALSE}
 t_test_female_naive <-perform_t_tests_for_summary_plot(
   data = summary_female_eEPSC_df$summary_data,
   test_category = 1,
@@ -255,7 +250,7 @@ t_test_female_cold
 ```
 
 Naive FEMALE Summary:
-```{r}
+```{r eval=FALSE}
 plot_summary_current_data(
   data = pruned_female_eEPSC_df$all_cells ,
   plot_category = 1,
@@ -278,10 +273,10 @@ plot_summary_current_data(
 
 ```
 Cold Summary FEMALE:
-currrently plotting all 14 cells but the t-test is only for the full cells
+only for the full cells
 ```{r}
 plot_summary_current_data(
-  data = pruned_female_eEPSC_df$all_cells ,
+  data = pruned_female_eEPSC_df$all_cells,
   plot_category = 2,
   plot_treatment = "Control",
   current_type = "eEPSC",
@@ -291,7 +286,7 @@ plot_summary_current_data(
   included_sexes = "both",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
-  y_axis_limit = 225,
+  y_axis_limit = 250,
   signif_stars = "yes",
   t_test_df = t_test_female_cold,
   large_axis_text = "no",
@@ -302,10 +297,10 @@ plot_summary_current_data(
 
 ```
 
-make PPR dataset:
+make cold PPR dataset:
 ```{r}
-PPR_df <- make_PPR_data(
-  data = raw_eEPSC_df,
+cold_female_PPR_df <- make_PPR_data(
+  data = raw_eEPSC_df %>% filter(sex == "Female")%>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")),
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
   PPR_min = 0,
@@ -314,28 +309,13 @@ PPR_df <- make_PPR_data(
   post_hormone_interval = "t20to25",
   treatment_colour_theme = my_theme_colours
 )
-PPR_df
+cold_female_PPR_df
 ```
 
-plot PPR data for naive:
-```{r}
-plot_PPR_data_single_treatment(
-  data = PPR_df,
-  plot_treatment = "Control",
-  plot_category = 1,
-  baseline_label = "Baseline",
-  post_hormone_label = "HFS",
-  test_type = "t.test",
-  large_axis_text = "no",
-  treatment_colour_theme = my_theme_colours,
-  theme_options = sample_theme_options,
-  save_plot_png = "no"
-)
-```
 plot PPR data for cold:
 ```{r}
 plot_PPR_data_single_treatment(
-  data = PPR_df,
+  data = cold_female_PPR_df,
   plot_treatment = "Control",
   plot_category = 2,
   baseline_label = "Baseline",
@@ -348,22 +328,19 @@ plot_PPR_data_single_treatment(
 )
 ```
 
-Naive baseline:
+Comparing Baselines:
 ```{r}
-plot_baseline_data(
-  data = summary_eEPSC_df$summary_data,
-  current_type = "eEPSC",
-  plot_category = 1,
-  y_variable = "raw_amplitude",
-  include_all_treatments = "yes",
-  list_of_treatments = NULL,
-  baseline_interval = "t0to5",
-  large_axis_text = "no",
-  plot_width = 8,
-  treatment_colour_theme = my_theme_colours,
-  theme_options = sample_theme_options,
-  save_plot_png = "no"
-)
+summary_eEPSC_df$percent_change_data %>%
+  filter(sex == "Female") %>%
+  filter(treatment == "Control") %>%
+  filter(category %in% c(1,2)) %>%
+  ggplot(aes(x = category, y = t0to5, color = category )) +
+  geom_sina(max_width = 0.2, shape = 16) +
+  scale_x_discrete(labels = c("Naive", "Cold")) +
+  scale_colour_manual(breaks = my_theme_colours$category, values = my_theme_colours$colours) +
+  guides(color = "none") +
+  labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
+  patchclampplotteR_theme()
 ```
 Cold baseline:
 ```{r}
@@ -382,7 +359,3 @@ plot_baseline_data(
   save_plot_png = "no"
 )
 ```
-TO DO:
-Plot a representative recording trace showing spontaneous currents (https://christelinda-laureijs.github.io/patchclampplotteR/index.html)
-Plot action potential trace
-AP frequency (https://christelinda-laureijs.github.io/patchclampplotteR/articles/action-potential-analysis.html?q=action#count)
