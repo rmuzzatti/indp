@@ -342,7 +342,7 @@ summary_eEPSC_df$percent_change_data %>%
   filter(treatment == "Control") %>%
   filter(category %in% c(1,2)) %>%
   ggplot(aes(x = category, y = t0to5, color = category )) +
-  geom_sina(max_width = 0.2, shape = 16) +
+  geom_sina(max_width = 0.15, shape = 16) +
   scale_x_discrete(labels = c("Naive", "Cold")) +
   scale_colour_manual(breaks = my_theme_colours$category, values = my_theme_colours$colours) +
   guides(color = "none") +
