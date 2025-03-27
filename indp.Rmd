@@ -136,8 +136,22 @@ pruned_female_eEPSC_df <- make_pruned_EPSC_data(
 
 pruned_female_eEPSC_df$individual_cells
 ```
+Prune MALE Data:
+```{r}
+pruned_male_eEPSC_df <- make_pruned_EPSC_data(
+  data = raw_eEPSC_df %>% filter(sex == "Male"),
+  current_type = "eEPSC",
+  min_time_value = 0,
+  max_time_value = 25,
+  baseline_length = 5,
+  interval_length = 1
+)
 
-Plot Pruned Data of Naive:
+pruned_male_eEPSC_df$individual_cells
+```
+
+
+Plot Pruned Data of Naive FEMALE:
 ```{r}
 pruned_female_eEPSC_df_control_plots <- plot_raw_current_data(
   data = pruned_female_eEPSC_df$individual_cells,
@@ -163,7 +177,7 @@ cold_female_long <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %i
 cold_female_short <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("RM100", "RM101", "RM102", "RM103", "RM104"))
 ```
 
-Plot Pruned Data of Cold:
+Plot Pruned Data of Cold FEMALE:
 ```{r}
 pruned_female_eEPSC_df_cold_plots <- plot_raw_current_data(
   data = pruned_female_eEPSC_df$individual_cells,
@@ -191,6 +205,18 @@ summary_female_eEPSC_df <- make_summary_EPSC_data(
   ending_interval = "t20to25"
 )
 summary_female_eEPSC_df
+```
+
+MALE summary eEPSC data:
+```{r}
+summary_male_eEPSC_df <- make_summary_EPSC_data(
+  data = raw_eEPSC_df %>% filter(sex == "Male"),
+  current_type = "eEPSC",
+  save_output_as_RDS = "no",
+  baseline_interval = "t0to5",
+  ending_interval = "t20to25"
+)
+summary_male_eEPSC_df
 ```
 
 t-test for naive FEMALE:
