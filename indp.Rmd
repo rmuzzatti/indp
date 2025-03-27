@@ -79,6 +79,13 @@ my_theme_colours <- data.frame(
 )
 ```
 
+```{r}
+library(tibble)
+
+my_custom_theme_options <- read.csv("data/my_custom_theme_options.csv") %>%
+  remove_rownames() %>%
+  column_to_rownames(var = "option")
+```
 
 
 ```{r}
@@ -104,7 +111,7 @@ Naive Plots:
 #  pruned = "no",
 #  hormone_added = "HFS",
 #  hormone_or_HFS_start_time = 5,
-#  theme_options = sample_theme_options,
+#  theme_options = my_custom_theme_options,
 #  treatment_colour_theme = my_theme_colours
 #)
 
@@ -123,7 +130,7 @@ raw_eEPSC_cold_plots <- plot_raw_current_data(
   pruned = "no",
   hormone_added = "HFS",
   hormone_or_HFS_start_time = 5,
-  theme_options = sample_theme_options,
+  theme_options = my_custom_theme_options,
   treatment_colour_theme = my_theme_colours
 )
 
@@ -156,7 +163,7 @@ Plot Pruned Data of Naive FEMALE:
 # pruned = "yes",
 #  hormone_added = "HFS",
 #  hormone_or_HFS_start_time = 5,
-#  theme_options = sample_theme_options,
+#  theme_options = my_custom_theme_options,
 #  treatment_colour_theme = my_theme_colours
 #)
 
@@ -183,7 +190,7 @@ pruned_cold_female_eEPSC_df_plots <- plot_raw_current_data(
   pruned = "yes",
   hormone_added = "HFS",
   hormone_or_HFS_start_time = 5,
-  theme_options = sample_theme_options,
+  theme_options = my_custom_theme_options,
   treatment_colour_theme = my_theme_colours
 )
 
@@ -268,7 +275,7 @@ plot_summary_current_data(
   large_axis_text = "no",
   shade_intervals = "no",
   treatment_colour_theme = my_theme_colours,
-  theme_options = sample_theme_options
+  theme_options = my_custom_theme_options
 )
 
 ```
@@ -292,7 +299,7 @@ plot_summary_current_data(
   large_axis_text = "no",
   shade_intervals = "no",
   treatment_colour_theme = my_theme_colours,
-  theme_options = sample_theme_options
+  theme_options = my_custom_theme_options
 )
 
 ```
@@ -323,7 +330,7 @@ plot_PPR_data_single_treatment(
   test_type = "t.test",
   large_axis_text = "no",
   treatment_colour_theme = my_theme_colours,
-  theme_options = sample_theme_options,
+  theme_options = my_custom_theme_options,
   save_plot_png = "no"
 )
 ```
@@ -355,7 +362,7 @@ plot_baseline_data(
   large_axis_text = "no",
   plot_width = 8,
   treatment_colour_theme = my_theme_colours,
-  theme_options = sample_theme_options,
+  theme_options = my_custom_theme_options,
   save_plot_png = "no"
 )
 ```

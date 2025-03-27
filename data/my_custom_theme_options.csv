@@ -1,0 +1,12 @@
+option,value
+gray_shading_colour,#dcdcdc
+line_col,#333333
+rectangle_shading_colour,#f6f6f6
+both_sexes_shape,15
+male_shape,17
+female_shape,16
+mean_point_colour,#000000
+connecting_line_width,0.2
+connecting_line_colour,#bfbfbf
+mean_point_size,0.5
+baseline_group_colour,#727a85
