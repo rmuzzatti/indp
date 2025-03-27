@@ -415,7 +415,7 @@ female_PPR_df %>%
 
   guides(fill = "none", color = "none") +
   
-  labs(x = NULL, y = "Baseline Paired Pulse Ratio (unit)") +
+  labs(x = NULL, y = "Baseline Paired Pulse Ratio") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
 
