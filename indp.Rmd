@@ -22,6 +22,7 @@ library(ggsignif)
 library(ggtext)
 library(ggforce)
 library(ggpubr)
+library(here)
 ```
 
 Cell Characteristics (all)
@@ -126,7 +127,12 @@ raw_eEPSC_cold_plots <- plot_raw_current_data(
   treatment_colour_theme = my_theme_colours
 )
 
-raw_eEPSC_cold_plots
+
+
+
+RM1_plot <- raw_eEPSC_cold_plots$RM1 + theme(plot.subtitle = element_blank(), plot.title = element_blank())
+
+ggsave(RM1_plot, path = here("Figures"), file = "RM1_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 Prune FULL CELLS:
@@ -264,7 +270,7 @@ plot_summary_current_data(
   representative_trace_filename = import_ext_data("Control-trace.png"),
   y_axis_limit = 250,
   signif_stars = "yes",
-  #can I display the p value?
+#  significance_display_method = "p-values",
   t_test_df = t_test_female_cold_full,
   large_axis_text = "no",
   legend_position = "inside",
@@ -335,6 +341,7 @@ female_PPR_df %>%
   labs(x = NULL, y = "Baseline Paired Pulse Ratio") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
+#maybe median maybe mean
 ```
 
 box and whisker for baselines:
@@ -347,7 +354,7 @@ summary_eEPSC_df$percent_change_data %>%
 
   geom_boxplot(aes(fill = factor(category)), 
                alpha = 0.6, 
-               #outlier.shape = NA, 
+               outlier.shape = NA, 
                color = "black", 
                width = 0.5, 
                show.legend = FALSE) +  
@@ -388,7 +395,7 @@ summary_eEPSC_df$percent_change_data %>%
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   geom_sina(max_width = 0.2, shape = 16) +
   scale_x_discrete(labels = c("Naive", "Cold")) +
-  stat_summary(fun.y = "mean", geom = "pointrange", colour = "black") +
+  stat_summary(fun = "mean", geom = "pointrange", colour = "black") +
   scale_colour_manual(breaks = my_theme_colours$category, values = my_theme_colours$colours) +
   guides(fill = "none", color = "none") +
   labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
