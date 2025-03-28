@@ -263,13 +263,13 @@ plot_summary_current_data(
   treatment_colour_theme = my_theme_colours,
   theme_options = my_custom_theme_options
 )
-
+#where to put the n=9, want to get rid of the legend
 ```
 
 make PPR dataset:
 ```{r}
 female_PPR_df <- make_PPR_data(
-  data = raw_eEPSC_df %>% filter(sex == "Female"),
+  data = raw_eEPSC_df,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
   PPR_min = 0,
@@ -278,22 +278,6 @@ female_PPR_df <- make_PPR_data(
   treatment_colour_theme = my_theme_colours
 )
 female_PPR_df
-```
-
-plot PPR data for cold:
-```{r}
-plot_PPR_data_single_treatment(
-  data = cold_female_PPR_df,
-  plot_treatment = "Control",
-  plot_category = 2,
-  baseline_label = "Baseline",
-  post_hormone_label = "HFS",
-  test_type = "t.test",
-  large_axis_text = "no",
-  treatment_colour_theme = my_theme_colours,
-  theme_options = my_custom_theme_options,
-  save_plot_png = "no"
-)
 ```
 
 Violin Plot Comparing Baselines:
@@ -351,13 +335,13 @@ box and whisker for PPR:
 ```{r}
 female_PPR_df %>%
   filter(sex == "Female") %>%
+  filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH", "LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9", "RM100", "RM101", "RM102", "RM103", "RM104")) %>%
   filter(treatment == "Control") %>%
   filter(category %in% c(1,2)) %>%
   ggplot(aes(x = factor(category), y = PPR)) +  
 
    geom_boxplot(aes(fill = factor(category)), 
                alpha = 0.5, 
-               #outlier.shape = NA, 
                color = "black", 
                width = 0.5, 
                show.legend = FALSE) + 
@@ -379,7 +363,7 @@ female_PPR_df %>%
   labs(x = NULL, y = "Baseline Paired Pulse Ratio") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
-
+#should it be a mean
 ```
 
 
