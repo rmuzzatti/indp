@@ -323,7 +323,7 @@ female_PPR_df %>%
   summarize(mean_PPR = mean(PPR),
             n = n()) %>%
  
-#factor so it is treated as a discrete variable
+# factor so it is treated as a discrete variable
   ggplot(aes(x = factor(category), y = mean_PPR)) +  
 
 # the boxes
@@ -362,6 +362,10 @@ female_PPR_df %>%
 # x-axis labels
   scale_x_discrete(labels = c("Naive", "Cold")) +
   
+# x-axis subtitles  
+  annotate("text", x = 1, y = -0.2, label = "n = 36", size = 3, hjust = 0.5) + 
+  annotate("text", x = 2, y = -0.2, label = "n = 14", size = 3, hjust = 0.5) + 
+  
 
   guides(fill = "none", color = "none") +
   
@@ -380,7 +384,7 @@ summary_female_eEPSC_df$percent_change_data %>%
   ggplot(aes(x = factor(category), y = t0to5)) +  
 
 # the boxes
-  geom_boxplot(aes(fill = factor(category), color = factor(category)), 
+  geom_boxplot(aes(fill = factor(category), color = factor(category),fatten = NULL), 
                alpha = 0.6, 
                color = "black",
 # outlier.shape = NA stops the box plot from plotting outliers. BUT because the sina plot is a different layer, all outliers are still shown as dots from that.
@@ -406,6 +410,10 @@ summary_female_eEPSC_df$percent_change_data %>%
 # x-axis labels  
   scale_x_discrete(labels = c("Naive", "Cold")) +
   
+# x-axis subtitles  
+  annotate("text", x = 1, y = -0.2, label = "n = 36", size = 3, hjust = 0.5) + 
+  annotate("text", x = 2, y = -0.2, label = "n = 14", size = 3, hjust = 0.5) + 
+  
 # t-test
   stat_compare_means(
     method = "t.test",
@@ -424,7 +432,7 @@ summary_female_eEPSC_df$percent_change_data %>%
 ```
 Violin Plot Comparing Baselines:
 ```{r}
-summary_eEPSC_df$percent_change_data %>%
+summary_female_eEPSC_df$percent_change_data %>%
   filter(sex == "Female") %>%
   filter(treatment == "Control") %>%
   filter(category %in% c(1,2)) %>%
