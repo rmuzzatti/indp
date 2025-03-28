@@ -307,21 +307,26 @@ female_PPR_df %>%
   summarize(mean_PPR = mean(PPR),
             n = n()) %>%
  
+#factor so it is treated as a discrete variable
   ggplot(aes(x = factor(category), y = mean_PPR)) +  
 
+# the boxes
   geom_boxplot(aes(fill = factor(category)), 
                alpha = 0.6, 
                outlier.shape = NA, 
+# outlier.shape = NA stops the box plot from plotting outliers. BUT because the sina plot is a different layer, all outliers are still shown as dots from that.
                color = "black", 
                width = 0.5, 
                show.legend = FALSE) +  
-
+  
+# the dots/scatter plot
   geom_sina(aes(x = factor(category), color = factor(category)), 
             max_width = 0.2, 
             shape = 16, 
             size = 2, 
             show.legend = FALSE) +  
   
+# t-test
   stat_compare_means(
     method = "t.test",
     comparisons = list(c("1", "2")),
@@ -329,18 +334,22 @@ female_PPR_df %>%
     label.y = 1.9,
     size = 5
   ) +
-  
+ 
+# mean as a point 
    stat_summary(fun = mean, geom = "point", 
                shape = 16, size = 4, color = "black") +
 
+# colours
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
-  
+
+# x-axis labels
   scale_x_discrete(labels = c("Naive", "Cold")) +
   
 
   guides(fill = "none", color = "none") +
   
+# axis labels
   labs(x = NULL, y = "Baseline Paired Pulse Ratio") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
@@ -354,33 +363,34 @@ summary_female_eEPSC_df$percent_change_data %>%
   filter(category %in% c(1,2)) %>%
   ggplot(aes(x = factor(category), y = t0to5)) +  
 
-  # the boxes
-  geom_boxplot(aes(fill = factor(category)), 
+# the boxes
+  geom_boxplot(aes(fill = factor(category), color = factor(category)), 
                alpha = 0.6, 
+               color = "black",
+# outlier.shape = NA stops the box plot from plotting outliers. BUT because the sina plot is a different layer, all outliers are still shown as dots from that.
                outlier.shape = NA, 
-               color = "black", 
                width = 0.5, 
                show.legend = FALSE) +  
 
-  # the dots/scatter plot
+# the dots/scatter plot
   geom_sina(aes(x = factor(category), color = factor(category)), 
             max_width = 0.2, 
             shape = 16, 
             size = 2, 
             show.legend = FALSE) +  
   
-  #mean as a point
+# mean as a point
   stat_summary(fun = mean, geom = "point", 
                shape = 16, size = 4, color = "black") +
   
-  stat_summary(fun = median, geom = "crossbar", 
-               width = 0.5, color = NA) +
-
+# colours
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
   
+# x-axis labels  
   scale_x_discrete(labels = c("Naive", "Cold")) +
   
+# t-test
   stat_compare_means(
     method = "t.test",
     label = "p.signif", 
@@ -391,6 +401,7 @@ summary_female_eEPSC_df$percent_change_data %>%
 
   guides(fill = "none", color = "none") +
   
+# axis labels
   labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
