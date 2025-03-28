@@ -110,9 +110,13 @@ raw_eEPSC_naive_plots <- plot_raw_current_data(
 
  raw_eEPSC_naive_plots
 
+# remove the title ("Recording LS10") and subtitle ("Treatment: Control Sex: Female")
 LS10_plot <- raw_eEPSC_naive_plots$LS10 + theme(plot.subtitle = element_blank(), plot.title = element_blank())
 
 LS10_plot
+
+# saving as png to figure folder
+ggsave(LS10_plot, path = here("Figures"), file = "LS10_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 Raw Cold Plots:
