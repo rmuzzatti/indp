@@ -353,7 +353,7 @@ summary_eEPSC_df$percent_change_data %>%
   labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
-
+#need unpaired t-test
 ```
 Violin Plot Comparing Baselines:
 ```{r}
