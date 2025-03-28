@@ -21,6 +21,7 @@ library(ggplot2)
 library(ggsignif)
 library(ggtext)
 library(ggforce)
+library(ggpubr)
 ```
 
 Cell Characteristics (all)
@@ -263,14 +264,21 @@ plot_summary_current_data(
   representative_trace_filename = import_ext_data("Control-trace.png"),
   y_axis_limit = 250,
   signif_stars = "yes",
+  #can I display the p value?
   t_test_df = t_test_female_cold_full,
   large_axis_text = "no",
+  legend_position = "inside",
   shade_intervals = "no",
   treatment_colour_theme = my_theme_colours,
   theme_options = my_custom_theme_options
 )
-#where to put the n=8, want to get rid of the legend
 ```
+
+```{r}
+args(plot_summary_current_data)
+
+```
+
 
 make PPR dataset:
 ```{r}
@@ -307,19 +315,26 @@ female_PPR_df %>%
             shape = 16, 
             size = 2, 
             show.legend = FALSE) +  
+  
+  stat_compare_means(
+    method = "t.test",
+    comparisons = list(c("1", "2")), # compare Naive vs Cold
+    label = "p.format",
+    label.y = 1.9,
+    size = 4
+  ) +
 
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
   
   scale_x_discrete(labels = c("Naive", "Cold")) +
+  
 
   guides(fill = "none", color = "none") +
   
   labs(x = NULL, y = "Baseline Paired Pulse Ratio") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
-
-#need to apply t-test
 ```
 
 box and whisker for baselines:
@@ -347,13 +362,20 @@ summary_eEPSC_df$percent_change_data %>%
   scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
   
   scale_x_discrete(labels = c("Naive", "Cold")) +
+  
+  stat_compare_means(
+    method = "t.test",
+    label = "p.format", 
+    label.y = 250,
+    comparisons = list(c("1", "2")),
+    size = 4
+) +
 
   guides(fill = "none", color = "none") +
   
   labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
-#need unpaired t-test
 ```
 Violin Plot Comparing Baselines:
 ```{r}
