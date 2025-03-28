@@ -342,6 +342,7 @@ female_PPR_df %>%
   patchclampplotteR_theme() +
   theme(legend.position = "none")
 #maybe median maybe mean
+#do we want to display p value if not signfigant or jsut ns because the summary data can only have stars
 ```
 
 box and whisker for baselines:
