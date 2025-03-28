@@ -418,7 +418,7 @@ summary_female_eEPSC_df$percent_change_data %>%
   stat_compare_means(
     method = "t.test",
     label = "p.signif", 
-    label.y = 250,
+    label.y = 270,
     comparisons = list(c("1", "2")),
     size = 5
 ) +
