@@ -244,7 +244,7 @@ summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3
 
 Naive FEMALE Summary:
 ```{r}
-plot_summary_current_data(
+naive_summary_plot <- plot_summary_current_data(
   data = pruned_female_eEPSC_df$all_cells,
   plot_category = 1,
   plot_treatment = "Control",
@@ -266,12 +266,16 @@ plot_summary_current_data(
   theme_options = my_custom_theme_options
 ) #+ theme(legend.position = "none")
 
+naive_summary_plot
+
+# saving as png to figure folder
+ggsave(naive_summary_plot, path = here("Figures"), file = "naive_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 Cold Summary FEMALE:
 only for the full cells
 ```{r}
-plot_summary_current_data(
+cold_summary_plot <- plot_summary_current_data(
   data = pruned_female_eEPSC_df$all_cells,
   plot_category = 2,
   plot_treatment = "Control",
@@ -293,6 +297,11 @@ plot_summary_current_data(
   treatment_colour_theme = my_theme_colours,
   theme_options = my_custom_theme_options
 )
+
+cold_summary_plot
+
+# saving as png to figure folder
+ggsave(cold_summary_plot, path = here("Figures"), file = "cold_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 look at what arguments a command has
