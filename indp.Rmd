@@ -287,31 +287,32 @@ female_PPR_df %>%
   group_by(category, letter) %>%
   summarize(mean_PPR = mean(PPR),
             n = n()) %>%
-  ggplot(aes(x = category, y = mean_PPR, fill = category)) +
-  geom_boxplot() +
-  geom_point(alpha = 0.6)
+ 
+  ggplot(aes(x = factor(category), y = mean_PPR)) +  
 
-```
+  geom_boxplot(aes(fill = factor(category)), 
+               alpha = 0.6, 
+               #outlier.shape = NA, 
+               color = "black", 
+               width = 0.5, 
+               show.legend = FALSE) +  
 
+  geom_sina(aes(x = factor(category), color = factor(category)), 
+            max_width = 0.2, 
+            shape = 16, 
+            size = 2, 
+            show.legend = FALSE) +  
 
-
-
-Violin Plot Comparing Baselines:
-```{r}
-summary_eEPSC_df$percent_change_data %>%
-  filter(sex == "Female") %>%
-  filter(treatment == "Control") %>%
-  filter(category %in% c(1,2)) %>%
-  ggplot(aes(x = category, y = t0to5, color = category )) +
-  geom_violin(aes(fill = factor(category)), alpha = 0.5) +  
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
-  geom_sina(max_width = 0.2, shape = 16) +
+  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
+  
   scale_x_discrete(labels = c("Naive", "Cold")) +
-  stat_summary(fun.y = "mean", geom = "pointrange", colour = "black") +
-  scale_colour_manual(breaks = my_theme_colours$category, values = my_theme_colours$colours) +
+
   guides(fill = "none", color = "none") +
-  labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
-  patchclampplotteR_theme()
+  
+  labs(x = NULL, y = "Baseline Paired Pulse Ratio") +
+  patchclampplotteR_theme() +
+  theme(legend.position = "none")
 ```
 
 box and whisker for baselines:
@@ -323,7 +324,7 @@ summary_eEPSC_df$percent_change_data %>%
   ggplot(aes(x = factor(category), y = t0to5)) +  
 
   geom_boxplot(aes(fill = factor(category)), 
-               alpha = 0.5, 
+               alpha = 0.6, 
                #outlier.shape = NA, 
                color = "black", 
                width = 0.5, 
@@ -347,37 +348,21 @@ summary_eEPSC_df$percent_change_data %>%
   theme(legend.position = "none")
 
 ```
-
-box and whisker for PPR:
+Violin Plot Comparing Baselines:
 ```{r}
-female_PPR_df %>%
+summary_eEPSC_df$percent_change_data %>%
+  filter(sex == "Female") %>%
   filter(treatment == "Control") %>%
   filter(category %in% c(1,2)) %>%
-  ggplot(aes(x = factor(category), y = PPR)) +  
-
-   geom_boxplot(aes(fill = factor(category)), 
-               alpha = 0.5, 
-               color = "black", 
-               width = 0.5, 
-               show.legend = FALSE) + 
-  
- # geom_sina(aes(x = factor(category), color = factor(category)), 
-          #  max_width = 0.2, 
-           # shape = 16, 
-          #  size = 2, 
-           # show.legend = FALSE) +  
-  
-
+  ggplot(aes(x = category, y = t0to5, color = category )) +
+  geom_violin(aes(fill = factor(category)), alpha = 0.5) +  
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
-  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
-  
+  geom_sina(max_width = 0.2, shape = 16) +
   scale_x_discrete(labels = c("Naive", "Cold")) +
-
+  stat_summary(fun.y = "mean", geom = "pointrange", colour = "black") +
+  scale_colour_manual(breaks = my_theme_colours$category, values = my_theme_colours$colours) +
   guides(fill = "none", color = "none") +
-  
-  labs(x = NULL, y = "Baseline Paired Pulse Ratio") +
-  patchclampplotteR_theme() +
-  theme(legend.position = "none")
-#should it be a mean
+  labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
+  patchclampplotteR_theme()
+#still no mean_se line
 ```
-
