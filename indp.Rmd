@@ -311,7 +311,7 @@ female_PPR_df %>%
 
   geom_boxplot(aes(fill = factor(category)), 
                alpha = 0.6, 
-               #outlier.shape = NA, 
+               outlier.shape = NA, 
                color = "black", 
                width = 0.5, 
                show.legend = FALSE) +  
@@ -324,11 +324,14 @@ female_PPR_df %>%
   
   stat_compare_means(
     method = "t.test",
-    comparisons = list(c("1", "2")), # compare Naive vs Cold
+    comparisons = list(c("1", "2")),
     label = "p.format",
     label.y = 1.9,
     size = 4
   ) +
+  
+   stat_summary(fun = mean, geom = "point", 
+               shape = 16, size = 4, color = "black") +
 
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
@@ -345,14 +348,15 @@ female_PPR_df %>%
 #do we want to display p value if not signfigant or jsut ns because the summary data can only have stars
 ```
 
-box and whisker for baselines:
+box plot baselines:
 ```{r}
-summary_eEPSC_df$percent_change_data %>%
+summary_female_eEPSC_df$percent_change_data %>%
   filter(sex == "Female") %>%
   filter(treatment == "Control") %>%
   filter(category %in% c(1,2)) %>%
   ggplot(aes(x = factor(category), y = t0to5)) +  
 
+  # the boxes
   geom_boxplot(aes(fill = factor(category)), 
                alpha = 0.6, 
                outlier.shape = NA, 
@@ -360,11 +364,19 @@ summary_eEPSC_df$percent_change_data %>%
                width = 0.5, 
                show.legend = FALSE) +  
 
+  # the dots/scatter plot
   geom_sina(aes(x = factor(category), color = factor(category)), 
             max_width = 0.2, 
             shape = 16, 
             size = 2, 
             show.legend = FALSE) +  
+  
+  #mean as a point
+  stat_summary(fun = mean, geom = "point", 
+               shape = 16, size = 4, color = "black") +
+  
+  stat_summary(fun = median, geom = "crossbar", 
+               width = 0.5, color = NA) +
 
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
