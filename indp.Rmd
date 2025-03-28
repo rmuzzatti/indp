@@ -93,7 +93,7 @@ raw_eEPSC_df <- make_normalized_EPSC_data(
 
 Naive Plots:
 ```{r}
-raw_eEPSC_control_plots <- plot_raw_current_data(
+raw_eEPSC_naive_plots <- plot_raw_current_data(
  data = raw_eEPSC_df %>% filter(sex == "Female") %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
   plot_treatment = "Control",
   plot_category = 1,
@@ -106,7 +106,7 @@ raw_eEPSC_control_plots <- plot_raw_current_data(
   treatment_colour_theme = my_theme_colours
 )
 
- raw_eEPSC_control_plots
+ raw_eEPSC_naive_plots
 
 ```
 
@@ -128,7 +128,7 @@ raw_eEPSC_cold_plots <- plot_raw_current_data(
 raw_eEPSC_cold_plots
 ```
 
-Prune FULL FEMALE Data:
+Prune FULL CELLS:
 ```{r}
 pruned_cold_female_eEPSC_df <- make_pruned_EPSC_data(
   data = raw_eEPSC_df %>% filter(sex == "Female")%>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9","LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
@@ -141,25 +141,6 @@ pruned_cold_female_eEPSC_df <- make_pruned_EPSC_data(
 
 pruned_cold_female_eEPSC_df$individual_cells
 ```
-
-Plot Pruned Data of Naive FEMALE:
-```{r}
-#pruned_female_eEPSC_df_control_plots <- plot_raw_current_data(
-#  data = pruned_female_eEPSC_df$individual_cells,
-#  plot_treatment = "Control",
-#  plot_category = 1,
-#  current_type = "eEPSC",
-#  y_variable = "mean_P1",
-# pruned = "yes",
-#  hormone_added = "HFS",
-#  hormone_or_HFS_start_time = 5,
-#  theme_options = my_custom_theme_options,
-#  treatment_colour_theme = my_theme_colours
-#)
-
-#pruned_female_eEPSC_df_control_plots
-```
-
 CELL GROUPS:
 ```{r}
 naive_female_short <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH", "LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10"))
@@ -201,7 +182,7 @@ summary_female_eEPSC_df <- make_summary_EPSC_data(
 summary_female_eEPSC_df
 ```
 
-t-test for naive FEMALE:
+t-test for naive (full cells only):
 ```{r}
 t_test_female_naive <-perform_t_tests_for_summary_plot(
   data = summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
@@ -219,7 +200,7 @@ t_test_female_naive <-perform_t_tests_for_summary_plot(
 t_test_female_naive
 ```
 
-t-test for cold (full cells only) FEMALE
+t-test for cold (full cells only):
 ```{r}
 t_test_female_cold <- perform_t_tests_for_summary_plot(
   data = summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")),
@@ -239,7 +220,7 @@ t_test_female_cold
 Naive FEMALE Summary:
 ```{r}
 plot_summary_current_data(
- data = pruned_female_eEPSC_df$all_cells,
+  data = pruned_female_eEPSC_df$all_cells,
   plot_category = 1,
   plot_treatment = "Control",
   current_type = "eEPSC",
@@ -249,8 +230,8 @@ plot_summary_current_data(
   included_sexes = "both",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
-  y_axis_limit = 225,
-  signif_stars = "no",
+  y_axis_limit = 250,
+  signif_stars = "yes",
   t_test_df = t_test_female_naive,
   large_axis_text = "no",
   shade_intervals = "no",
