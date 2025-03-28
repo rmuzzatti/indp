@@ -110,6 +110,9 @@ raw_eEPSC_naive_plots <- plot_raw_current_data(
 
  raw_eEPSC_naive_plots
 
+LS10_plot <- raw_eEPSC_naive_plots$LS10 + theme(plot.subtitle = element_blank(), plot.title = element_blank())
+
+LS10_plot
 ```
 
 Raw Cold Plots:
@@ -127,13 +130,19 @@ raw_eEPSC_cold_plots <- plot_raw_current_data(
   treatment_colour_theme = my_theme_colours
 )
 
+# view all the raw plots
+raw_eEPSC_cold_plots
 
-
-
+# remove the title ("Recording RM1") and subtitle ("Treatment: Control Sex: Female")
 RM1_plot <- raw_eEPSC_cold_plots$RM1 + theme(plot.subtitle = element_blank(), plot.title = element_blank())
 
+# view the edited plot
+RM1_plot
+
+# saving as png to figure folder
 ggsave(RM1_plot, path = here("Figures"), file = "RM1_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
+
 
 Prune FULL CELLS:
 ```{r}
@@ -244,6 +253,7 @@ plot_summary_current_data(
   representative_trace_filename = import_ext_data("Control-trace.png"),
   y_axis_limit = 250,
   signif_stars = "yes",
+  geom_signif_text_size = 8,
   t_test_df = t_test_female_naive_full,
   large_axis_text = "no",
   legend_position = "inside",
@@ -271,6 +281,7 @@ plot_summary_current_data(
   y_axis_limit = 250,
   signif_stars = "yes",
 #  significance_display_method = "p-values",
+  geom_signif_text_size = 8,
   t_test_df = t_test_female_cold_full,
   large_axis_text = "no",
   legend_position = "inside",
@@ -280,8 +291,9 @@ plot_summary_current_data(
 )
 ```
 
+look at what arguments a command has
 ```{r}
-args(plot_summary_current_data)
+args(plot_raw_current_data)
 
 ```
 
