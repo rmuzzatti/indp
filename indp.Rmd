@@ -324,7 +324,7 @@ summary_eEPSC_df$percent_change_data %>%
   scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
   geom_sina(max_width = 0.2, shape = 16) +
   scale_x_discrete(labels = c("Naive", "Cold")) +
-  #stat_summary(fun.y = "mean_se", geom = "pointrange", colour = "black") +
+  stat_summary(fun.y = "mean", geom = "pointrange", colour = "black") +
   scale_colour_manual(breaks = my_theme_colours$category, values = my_theme_colours$colours) +
   guides(fill = "none", color = "none") +
   labs(x = NULL, y = "Baseline eEPSC Amplitude (pA)") +
