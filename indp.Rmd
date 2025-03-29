@@ -397,7 +397,7 @@ ggplot(aes(x = factor(category), y = mean_PPR)) +
 baseline_PPR_plot
 
 # saving as png to figure folder
-ggsave(baseline_PPR_plot, path = here("Figures"), file = "baseline_PPR_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+# ggsave(baseline_PPR_plot, path = here("Figures"), file = "baseline_PPR_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 box plot baselines:
@@ -458,7 +458,7 @@ baseline_amp_plot <- summary_female_eEPSC_df$percent_change_data %>%
 baseline_amp_plot
 
 # saving as png to figure folder
-ggsave(baseline_amp_plot, path = here("Figures"), file = "baseline_amp_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+# ggsave(baseline_amp_plot, path = here("Figures"), file = "baseline_amp_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 Violin Plot Comparing Baselines:
 ```{r}
