@@ -121,7 +121,7 @@ LS10_final_plot <- LS10_plot + ylim(0,550)
 LS10_final_plot
 
 # saving as png to figure folder
-ggsave(LS10_final_plot, path = here("Figures"), file = "LS10_final_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+#ggsave(LS10_final_plot, path = here("Figures"), file = "LS10_final_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 Raw Cold Plots:
@@ -154,7 +154,7 @@ RM1_final_plot <- RM1_plot + ylim(0,550)
 RM1_final_plot
 
 # saving as png to figure folder
-ggsave(RM1_final_plot, path = here("Figures"), file = "RM1_final_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+# ggsave(RM1_final_plot, path = here("Figures"), file = "RM1_final_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 
 ```
 
@@ -280,7 +280,7 @@ naive_summary_plot <- plot_summary_current_data(
 naive_summary_plot
 
 # saving as png to figure folder
-ggsave(naive_summary_plot, path = here("Figures"), file = "naive_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+# ggsave(naive_summary_plot, path = here("Figures"), file = "naive_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 Cold Summary FEMALE:
@@ -312,7 +312,7 @@ cold_summary_plot <- plot_summary_current_data(
 cold_summary_plot
 
 # saving as png to figure folder
-ggsave(cold_summary_plot, path = here("Figures"), file = "cold_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+# ggsave(cold_summary_plot, path = here("Figures"), file = "cold_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 look at what arguments a command has
@@ -383,8 +383,8 @@ ggplot(aes(x = factor(category), y = mean_PPR)) +
   scale_x_discrete(labels = c("Naive", "Cold")) +
   
 # x-axis subtitles  
-  annotate("text", x = 1, y = -0.2, label = "n = 36", size = 3, hjust = 0.5) + 
-  annotate("text", x = 2, y = -0.2, label = "n = 14", size = 3, hjust = 0.5) + 
+  annotate("text", x = 1, y = -0.2, label = "n = 36", size = 4, hjust = 0.5) + 
+  annotate("text", x = 2, y = -0.2, label = "n = 14", size = 4, hjust = 0.5) + 
   
 
   guides(fill = "none", color = "none") +
@@ -436,8 +436,8 @@ baseline_amp_plot <- summary_female_eEPSC_df$percent_change_data %>%
   scale_x_discrete(labels = c("Naive", "Cold")) +
   
 # x-axis subtitles  
-  annotate("text", x = 1, y = -0.2, label = "n = 36", size = 3, hjust = 0.5) + 
-  annotate("text", x = 2, y = -0.2, label = "n = 14", size = 3, hjust = 0.5) + 
+  annotate("text", x = 1, y = -0.2, label = "n = 36", size = 4, hjust = 0.5) + 
+  annotate("text", x = 2, y = -0.2, label = "n = 14", size = 4, hjust = 0.5) + 
   
 # t-test
   stat_compare_means(
