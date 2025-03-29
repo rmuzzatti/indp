@@ -115,8 +115,13 @@ LS10_plot <- raw_eEPSC_naive_plots$LS10 + theme(plot.subtitle = element_blank(),
 
 LS10_plot
 
+#fixing the y-axis
+LS10_final_plot <- LS10_plot + ylim(0,550)
+
+LS10_final_plot
+
 # saving as png to figure folder
-ggsave(LS10_plot, path = here("Figures"), file = "LS10_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+ggsave(LS10_final_plot, path = here("Figures"), file = "LS10_final_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
 Raw Cold Plots:
@@ -143,8 +148,14 @@ RM1_plot <- raw_eEPSC_cold_plots$RM1 + theme(plot.subtitle = element_blank(), pl
 # view the edited plot
 RM1_plot
 
+#fixing the y-axis
+RM1_final_plot <- RM1_plot + ylim(0,550)
+
+RM1_final_plot
+
 # saving as png to figure folder
-ggsave(RM1_plot, path = here("Figures"), file = "RM1_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+ggsave(RM1_final_plot, path = here("Figures"), file = "RM1_final_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+
 ```
 
 
