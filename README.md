@@ -5,7 +5,7 @@ Winter 2025
 Supervisor: Dr Karen Crosby
 
 ## Data Collection
-Naive Data: Emily, Kelsey
+Naive Female Data: Emily, Kelsey
 
 Cold Male Data: Truman
 
