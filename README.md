@@ -5,7 +5,7 @@ Winter 2025
 Supervisor: Dr Karen Crosby
 
 ## Data Collection
-Naive Female Data: Emily, Kelsey
+Naive Female Data: Emily Rushton (Baselines), Lara Swart (Baselines and HFS)
 
 Cold Male Data: Truman
 

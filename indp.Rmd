@@ -314,6 +314,27 @@ cold_summary_plot
 # saving as png to figure folder
 # ggsave(cold_summary_plot, path = here("Figures"), file = "cold_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
+Cold post-HFS amplitude
+```{r}
+pruned_female_eEPSC_df$all_cells %>% filter(category == 2) %>%  
+  mutate(time_5min_interval = floor(time / 5) * 5) %>%  
+  group_by(time_5min_interval) %>% 
+  summarise(
+    mean_value = mean(mean_P1_all_cells, na.rm = TRUE), 
+    sd_value = sd(sd_P1_all_cells, na.rm = TRUE)    
+  )
+```
+
+naive post-HFS amplitude
+```{r}
+pruned_female_eEPSC_df$all_cells %>% filter(category == 1) %>%  
+  mutate(time_5min_interval = floor(time / 5) * 5) %>%  
+  group_by(time_5min_interval) %>% 
+  summarise(
+    mean_value = mean(mean_P1_all_cells, na.rm = TRUE), 
+    sd_value = sd(sd_P1_all_cells, na.rm = TRUE)    
+  )
+```
 
 look at what arguments a command has
 ```{r}
@@ -460,6 +481,40 @@ baseline_amp_plot
 # saving as png to figure folder
 # ggsave(baseline_amp_plot, path = here("Figures"), file = "baseline_amp_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
+baseline means
+```{r}
+# amplitude
+baseline_summary <- summary_female_eEPSC_df$percent_change_data %>%
+  filter(sex == "Female",
+         treatment == "Control",
+         category %in% c(1, 2)) %>%
+  group_by(category) %>%
+  summarise(
+    n = n(),
+    mean_t0to5 = mean(t0to5, na.rm = TRUE),
+    sd_t0to5 = sd(t0to5, na.rm = TRUE)
+  )
+
+baseline_summary
+
+# PPR 
+baseline_PPR_summary <- female_PPR_df %>%
+  filter(state == "Baseline", category %in% c(1, 2)) %>%
+  group_by(category) %>%
+  summarise(
+    n = n(),
+    mean_PPR = mean(PPR, na.rm = TRUE),
+    sd_PPR = sd(PPR, na.rm = TRUE)
+  )
+
+baseline_PPR_summary
+
+```
+
+
+
+
+
 Violin Plot Comparing Baselines:
 ```{r}
 summary_female_eEPSC_df$percent_change_data %>%
