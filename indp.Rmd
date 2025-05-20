@@ -356,13 +356,23 @@ female_PPR_df <- make_PPR_data(
 )
 female_PPR_df
 ```
-
+testing assumptions
 ```{r}
-baseline_PPR_plot <- female_PPR_df %>%
+# making the data frame
+
+PPR_plot_df <- female_PPR_df %>%
   filter(state == "Baseline") %>%
   group_by(category, letter) %>%
   summarize(mean_PPR = mean(PPR),
-            n = n()) %>%
+            n = n())
+
+shapiro.test(PPR_plot_df$mean_PPR)
+
+# p value is greater than 0.05, data is normal
+```
+
+```{r}
+baseline_PPR_plot <- PPR_plot_df %>%
  
 # factor so it is treated as a discrete variable
 ggplot(aes(x = factor(category), y = mean_PPR)) +  
@@ -420,13 +430,24 @@ baseline_PPR_plot
 # saving as png to figure folder
 # ggsave(baseline_PPR_plot, path = here("Figures"), file = "baseline_PPR_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
+testing assumption
+```{r}
+# making the data frame
+
+baseline_plot_df <- summary_female_eEPSC_df$percent_change_data %>%
+  filter(sex == "Female") %>%
+  filter(treatment == "Control") %>%
+  filter(category %in% c(1,2))
+
+shapiro.test(baseline_plot_df$t0to5)
+
+# p value is smaller than 0.05, data is NOT normal
+```
+
 
 box plot baselines:
 ```{r}
-baseline_amp_plot <- summary_female_eEPSC_df$percent_change_data %>%
-  filter(sex == "Female") %>%
-  filter(treatment == "Control") %>%
-  filter(category %in% c(1,2)) %>%
+baseline_amp_plot <- baseline_plot_df %>%
   ggplot(aes(x = factor(category), y = t0to5)) +  
 
 # the boxes
