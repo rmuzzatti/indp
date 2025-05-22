@@ -89,7 +89,7 @@ raw_eEPSC_df <- make_normalized_EPSC_data(
   max_time_value = 30,
   interval_length = 5,
   baseline_length = 5,
-  negative_transform_currents = "yes"
+  negative_transform_currents = "yes" # because the raw amplitudes are negative
 )
 ```
 
@@ -309,7 +309,7 @@ naive_summary_plot <- plot_summary_current_data(
   included_sexes = "both",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
-  y_axis_limit = 250,
+  y_axis_limit = 250, # 250 was better for scale next to the cold summary plot, but 400 is better to compare to a representative cell so idk
   signif_stars = "yes",
   geom_signif_text_size = 8,
   t_test_df = t_test_female_naive_full,
@@ -340,7 +340,7 @@ cold_summary_plot <- plot_summary_current_data(
   included_sexes = "both",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
-  y_axis_limit = 250,
+  y_axis_limit = 250, # 250 was better for scale next to the naive summary plot, but 400 is better to compare to a representative cell so idk
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
@@ -382,7 +382,6 @@ pruned_female_eEPSC_df$all_cells %>% filter(category == 1) %>%
 look at what arguments a command has
 ```{r eval=FALSE}
 args(plot_raw_current_data)
-
 ```
 
 
@@ -438,7 +437,7 @@ ggplot(aes(x = factor(category), y = mean_PPR)) +
   
 # t-test
   stat_compare_means(
-    method = "t.test",
+    method = "t.test", # just tested assumptions in the last chunk
     comparisons = list(c("1", "2")),
     label = "p.signif",
     label.y = 1.9,
