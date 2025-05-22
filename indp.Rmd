@@ -378,7 +378,7 @@ pruned_female_eEPSC_df$all_cells %>% filter(category == 1) %>%
 ```
 
 look at what arguments a command has
-```{r}
+```{r eval=FALSE}
 args(plot_raw_current_data)
 
 ```
@@ -397,7 +397,7 @@ female_PPR_df <- make_PPR_data(
 )
 female_PPR_df
 ```
-testing assumptions
+testing assumptions for comparing PPR during baseline
 ```{r}
 # making the data frame
 
@@ -471,7 +471,7 @@ baseline_PPR_plot
 # saving as png to figure folder
 # ggsave(baseline_PPR_plot, path = here("Figures"), file = "baseline_PPR_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
-testing assumption
+testing assumptions for comparing baseline amp
 ```{r}
 # making the data frame
 
@@ -483,6 +483,7 @@ baseline_plot_df <- summary_female_eEPSC_df$percent_change_data %>%
 shapiro.test(baseline_plot_df$t0to5)
 
 # p value is smaller than 0.05, data is NOT normal
+# will use wilcoxon signed rank test
 ```
 
 
@@ -524,7 +525,7 @@ baseline_amp_plot <- baseline_plot_df %>%
   
 # t-test
   stat_compare_means(
-    method = "t.test",
+    method = "wilcox.test", # using wilcox because did not pass assumptions
     label = "p.signif", 
     label.y = 270,
     comparisons = list(c("1", "2")),
