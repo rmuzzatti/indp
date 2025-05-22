@@ -93,7 +93,7 @@ raw_eEPSC_df <- make_normalized_EPSC_data(
 )
 ```
 
-Raw Naive Plots:
+Raw Naive Plots for each cell:
 ```{r}
 raw_eEPSC_naive_plots <- plot_raw_current_data(
  data = raw_eEPSC_df %>% filter(sex == "Female") %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
@@ -124,7 +124,7 @@ LS10_final_plot
 #ggsave(LS10_final_plot, path = here("Figures"), file = "LS10_final_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
-Raw Cold Plots:
+Raw Cold Plots for each cell:
 ```{r}
 raw_eEPSC_cold_plots <- plot_raw_current_data(
   data = raw_eEPSC_df %>% filter(sex == "Female"),
@@ -159,8 +159,10 @@ RM1_final_plot
 ```
 
 
-Prune FULL CELLS:
+Prune FULL (30 minute) CELLS:
 ```{r}
+# what does pruning do exactly ? I think it is averaging something but idk what
+
 pruned_female_eEPSC_df <- make_pruned_EPSC_data(
   data = raw_eEPSC_df %>% filter(sex == "Female")%>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9","LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
   current_type = "eEPSC",
@@ -173,7 +175,9 @@ pruned_female_eEPSC_df <- make_pruned_EPSC_data(
 pruned_female_eEPSC_df$individual_cells
 ```
 CELL GROUPS:
-```{r}
+```{r eval=FALSE}
+# good idea, never really works in my code, I end up just coping the filter and using that
+
 naive_female_short <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH", "LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10"))
 
 naive_female_long <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10"))
@@ -185,20 +189,20 @@ cold_female_short <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %
 
 Plot Pruned Data of Cold FEMALE:
 ```{r eval=FALSE}
-#pruned_cold_female_eEPSC_df_plots <- plot_raw_current_data(
-#  data = pruned_cold_female_eEPSC_df$individual_cells,
-#  plot_treatment = "Control",
-#  plot_category = 2,
-#  current_type = "eEPSC",
-#  y_variable = "mean_P1",
-#  pruned = "yes",
-#  hormone_added = "HFS",
-#  hormone_or_HFS_start_time = 5,
-#  theme_options = my_custom_theme_options,
-#  treatment_colour_theme = my_theme_colours
-# )
+pruned_cold_female_eEPSC_df_plots <- plot_raw_current_data(
+  data = pruned_cold_female_eEPSC_df$individual_cells,
+  plot_treatment = "Control",
+  plot_category = 2,
+  current_type = "eEPSC",
+  y_variable = "mean_P1",
+  pruned = "yes",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  theme_options = my_custom_theme_options,
+  treatment_colour_theme = my_theme_colours
+ )
 
-#pruned_cold_female_eEPSC_df_plots
+pruned_cold_female_eEPSC_df_plots
 ```
 
 all cells FEMALE summary eEPSC data:
@@ -210,7 +214,7 @@ summary_female_eEPSC_df <- make_summary_EPSC_data(
   baseline_interval = "t0to5",
   ending_interval = "t20to25"
 )
-summary_female_eEPSC_df
+summary_female_eEPSC_df # what I will use in my summary data stuff and plots from now on
 ```
 
 testing assumptions for naive summary data
@@ -224,10 +228,15 @@ naive_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
     naive_difference0to5_vs_10to15 = t10to15 - t0to5,
     naive_difference0to5_vs_5to10 = t5to10 - t0to5,
          )
+
 shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_25to30)
+
 shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_20to25)
+
 shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_15to20)
+
 shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_10to15)
+
 shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 
 # all p-values are greater than 0.05 -> fail to reject the null hypothesis that they are normally distributed -> the data is normally distributed
@@ -244,11 +253,26 @@ cold_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
     cold_difference0to5_vs_10to15 = t10to15 - t0to5,
     cold_difference0to5_vs_5to10 = t5to10 - t0to5,
          )
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_25to30)
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_20to25)
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_15to20)
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_10to15)
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_25to30) # normal
+qqnorm(cold_difference_evoked_df$cold_difference0to5_vs_25to30)
+qqline(cold_difference_evoked_df$cold_difference0to5_vs_25to30)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_20to25) # normal
+qqnorm(cold_difference_evoked_df$cold_difference0to5_vs_20to25)
+qqline(cold_difference_evoked_df$cold_difference0to5_vs_20to25)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_15to20) # normal
+qqnorm(cold_difference_evoked_df$cold_difference0to5_vs_15to20)
+qqline(cold_difference_evoked_df$cold_difference0to5_vs_15to20)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_10to15) # normal
+qqnorm(cold_difference_evoked_df$cold_difference0to5_vs_10to15)
+qqline(cold_difference_evoked_df$cold_difference0to5_vs_10to15)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10) # NOT normal
+qqnorm(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
+qqline(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 
 # only the 5 to 10 minute period has a p-value less than 0.05
 ```
