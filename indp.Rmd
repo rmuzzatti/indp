@@ -38,16 +38,16 @@ raw_eEPSC_df <- read.csv("data/rraw-eEPSC.csv")
 ```
 
 To automatically append new data onto your existing sheet and save as new csv to data subfolder
-```{r eva=FALSE}
-#add_new_cells(
-#  new_raw_data_csv = "data/rraw-eEPSC.csv",
-#  cell_characteristics_csv = "data/Cell-Characteristics.csv",
-#  old_raw_data_csv = "data/rraw-eEPSC.csv",
-#  data_type = "eEPSC",
-#  write_new_csv = "yes",
-#  new_file_name = "data/rraw-eEPSC.csv",
-#  decimal_places = 2
-# )
+```{r eval=FALSE}
+add_new_cells(
+  new_raw_data_csv = "data/rraw-eEPSC.csv",
+  cell_characteristics_csv = "data/Cell-Characteristics.csv",
+  old_raw_data_csv = "data/rraw-eEPSC.csv",
+  data_type = "eEPSC",
+  write_new_csv = "yes",
+  new_file_name = "data/rraw-eEPSC.csv",
+  decimal_places = 2
+ )
 ```
 
 how many cold cells
