@@ -274,6 +274,8 @@ t_test_female_naive_full
 
 t-test for cold (full cells only):
 ```{r}
+# technically the one 5 to 10 min period does not pass assumptions for normality
+
 t_test_female_cold_full <- perform_t_tests_for_summary_plot(
   data = summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9")),
   test_category = 2,
