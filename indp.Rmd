@@ -23,6 +23,7 @@ library(ggtext)
 library(ggforce)
 library(ggpubr)
 library(here)
+library(pak)
 ```
 
 Cell Characteristics (all)
@@ -174,6 +175,7 @@ pruned_female_eEPSC_df <- make_pruned_EPSC_data(
 
 pruned_female_eEPSC_df$individual_cells
 ```
+
 CELL GROUPS:
 ```{r eval=FALSE}
 # good idea, never really works in my code, I end up just coping the filter and using that
