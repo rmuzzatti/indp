@@ -564,8 +564,8 @@ ggplot(aes(x = factor(category), y = mean_PPR)) +
                shape = 16, size = 4, color = "black") +
 
 # colours
-  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1", "3" = "#ecc479")) +
-  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96", "3" = "#f5e0b3")) +
+  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1", "3" = "#f5e0b3")) +
+  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96", "3" = "#ecc479")) +
 
 # x-axis labels
   scale_x_discrete(labels = c("Naive", "Cold", "Noise")) +
@@ -631,8 +631,8 @@ baseline_amp_plot <- baseline_plot_df %>%
                shape = 16, size = 4, color = "black") +
   
 # colours
-  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1", "3" = "#ecc479")) +
-  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96", "3" = "#f5e0b3")) +
+  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1", "3" = "#f5e0b3")) +
+  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96", "3" = "#ecc479")) +
   
 # x-axis labels  
   scale_x_discrete(labels = c("Naive", "Cold", "Noise")) +
