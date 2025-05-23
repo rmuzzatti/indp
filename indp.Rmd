@@ -41,14 +41,16 @@ raw_eEPSC_df <- read.csv("data/rraw-eEPSC.csv")
 To automatically append new data onto your existing sheet and save as new csv to data subfolder
 ```{r eval=FALSE}
 add_new_cells(
-  new_raw_data_csv = "data/rraw-eEPSC.csv",
+  new_raw_data_csv = "data/fixed_cold.csv", # should ONLY have the new data you want
   cell_characteristics_csv = "data/Cell-Characteristics.csv",
   old_raw_data_csv = "data/rraw-eEPSC.csv",
   data_type = "eEPSC",
   write_new_csv = "yes",
-  new_file_name = "data/rraw-eEPSC.csv",
+  new_file_name = "data/rraw-eEPSC.csv", # will overwrite the current version of this file
   decimal_places = 2
  )
+
+# once successful, go delete the data from "new_raw.csv" so that you don't get a duplication error the next time you are adding data to the raw_eEPSC_df.
 ```
 
 how many cold cells
@@ -553,8 +555,8 @@ baseline_amp_plot <- baseline_plot_df %>%
 # t-test
   stat_compare_means(
     method = "wilcox.test", # using wilcox because did not pass assumptions
-    label = "p.signif", 
-    label.y = 270,
+    label = "p.signif", # p.signif does the stars, p.format shows the p-value
+    label.y = 270, # how to make the star not cut off
     comparisons = list(c("1", "2")),
     size = 5
 ) +
