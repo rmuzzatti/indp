@@ -501,7 +501,7 @@ args(plot_raw_current_data)
 make PPR dataset:
 ```{r}
 female_PPR_df <- make_PPR_data(
-  data = raw_eEPSC_df %>% filter(sex == "Female")%>% filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH", "LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RM100", "RM101", "RM102", "RM103", "RM104")),
+  data = raw_eEPSC_df %>% filter(sex == "Female")%>% filter(letter %in% c("AA","AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AX", "AY", "CF", "CG", "CH", "LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RM100", "RM101", "RM102", "RM103", "RM104", "RMNC1", "RMNC2", "RMNC3", "RMNC4")),
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
   PPR_min = 0,
@@ -551,9 +551,9 @@ ggplot(aes(x = factor(category), y = mean_PPR)) +
 # t-test
   stat_compare_means(
     method = "t.test", # just tested assumptions in the last chunk
-    comparisons = list(c("1", "2")),
-    label = "p.signif",
-    label.y = 1.9,
+    comparisons = list(c("1", "2"), c("1", "3")),
+    label = "p.format", # p.signif does the stars, p.format shows the p-value
+    label.y = c(1.9, 2.1), # how do I make it not cut off
     size = 5
   ) +
  
@@ -562,15 +562,16 @@ ggplot(aes(x = factor(category), y = mean_PPR)) +
                shape = 16, size = 4, color = "black") +
 
 # colours
-  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
-  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
+  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1", "3" = "#ecc479")) +
+  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96", "3" = "#f5e0b3")) +
 
 # x-axis labels
-  scale_x_discrete(labels = c("Naive", "Cold")) +
+  scale_x_discrete(labels = c("Naive", "Cold", "Noise")) +
   
 # x-axis subtitles  
   annotate("text", x = 1, y = -0.2, label = "n = 36", size = 4, hjust = 0.5) + 
   annotate("text", x = 2, y = -0.2, label = "n = 14", size = 4, hjust = 0.5) + 
+  annotate("text", x = 3, y = -0.2, label = "n = 4", size = 4, hjust = 0.5) + # with only 4 cells
   
 
   guides(fill = "none", color = "none") +
@@ -592,7 +593,7 @@ testing assumptions for comparing baseline amp
 baseline_plot_df <- summary_female_eEPSC_df$percent_change_data %>%
   filter(sex == "Female") %>%
   filter(treatment == "Control") %>%
-  filter(category %in% c(1,2))
+  filter(category %in% c(1,2,3))
 
 shapiro.test(baseline_plot_df$t0to5)
 
@@ -627,22 +628,23 @@ baseline_amp_plot <- baseline_plot_df %>%
                shape = 16, size = 4, color = "black") +
   
 # colours
-  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1")) +
-  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96")) +
+  scale_fill_manual(values = c("1" = "#f19cac", "2" = "#6497b1", "3" = "#ecc479")) +
+  scale_color_manual(values = c("1" = "#eb647e", "2" = "#005b96", "3" = "#f5e0b3")) +
   
 # x-axis labels  
-  scale_x_discrete(labels = c("Naive", "Cold")) +
+  scale_x_discrete(labels = c("Naive", "Cold", "Noise")) +
   
 # x-axis subtitles  
   annotate("text", x = 1, y = -0.2, label = "n = 36", size = 4, hjust = 0.5) + 
   annotate("text", x = 2, y = -0.2, label = "n = 14", size = 4, hjust = 0.5) + 
+  annotate("text", x = 3, y = -0.2, label = "n = 4", size = 4, hjust = 0.5) +
   
 # t-test
   stat_compare_means(
     method = "wilcox.test", # using wilcox because did not pass assumptions
     label = "p.signif", # p.signif does the stars, p.format shows the p-value
-    label.y = 270, # how to make the star not cut off
-    comparisons = list(c("1", "2")),
+    label.y = c(270, 300), 
+    comparisons = list(c("1", "2"), c("1", "3")),
     size = 5
 ) +
 
