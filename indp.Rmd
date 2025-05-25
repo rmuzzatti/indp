@@ -63,6 +63,34 @@ raw_eEPSC_df %>%
   count(sex) %>%
   arrange(treatment, sex)
 ```
+
+how many noise cells
+```{r}
+raw_eEPSC_df %>%
+  filter(category == 3) %>%
+  filter(treatment == "Control") %>%
+  filter(time == 0) %>%
+ group_by(treatment) %>%
+  count(sex) %>%
+  arrange(treatment, sex)
+```
+how many naive cells
+```{r}
+raw_eEPSC_df %>%
+  filter(category == 1) %>%
+  filter(treatment == "Control") %>%
+  filter(time == 0) %>%
+ group_by(treatment) %>%
+  count(sex) %>%
+  arrange(treatment, sex)
+```
+max recording length
+```{r}
+raw_eEPSC_df %>%
+  group_by(letter) %>%
+  summarize(max_time = max(time))
+```
+
 defining my colour theme
 ```{r}
 my_theme_colours <- data.frame(
@@ -94,6 +122,8 @@ raw_eEPSC_df <- make_normalized_EPSC_data(
   baseline_length = 5,
   negative_transform_currents = "yes" # because the raw amplitudes are negative
 )
+
+# for female and male
 ```
 
 Raw Naive Plots for each cell:
@@ -181,7 +211,7 @@ raw_eEPSC_noise_plots
 ```
 
 
-Prune FULL (30 minute) CELLS:
+Prune female FULL (30 minute) CELLS:
 ```{r}
 # what does pruning do exactly ? I think it is averaging something but idk what
 
@@ -195,6 +225,22 @@ pruned_female_eEPSC_df <- make_pruned_EPSC_data(
 )
 
 pruned_female_eEPSC_df$individual_cells
+```
+
+Prune male FULL (30 minute) CELLS:
+```{r}
+# what does pruning do exactly ? I think it is averaging something but idk what
+
+pruned_male_eEPSC_df <- make_pruned_EPSC_data(
+  data = raw_eEPSC_df %>% filter(sex == "Male"),
+  current_type = "eEPSC",
+  min_time_value = 0,
+  max_time_value = 30,
+  baseline_length = 5,
+  interval_length = 1
+)
+
+pruned_male_eEPSC_df$individual_cells
 ```
 
 CELL GROUPS:
@@ -220,12 +266,32 @@ summary_female_eEPSC_df <- make_summary_EPSC_data(
   current_type = "eEPSC",
   save_output_as_RDS = "no",
   baseline_interval = "t0to5",
-  ending_interval = "t20to25"
+  ending_interval = "t25to30"
 )
 summary_female_eEPSC_df # what I will use in my summary data stuff and plots from now on
+
+# category 1 is naive, looking at glutamate
+# category 2 is 2 hour cold exposed, looking at glutamate
+# category 3 is 2 hour noise exposure, looking at glutamate
 ```
 
-testing assumptions for naive summary data
+all cells MALE summary eEPSC data:
+```{r}
+summary_male_eEPSC_df <- make_summary_EPSC_data(
+  data = raw_eEPSC_df %>% filter(sex == "Male") %>% filter(treatment == "Control"),
+  current_type = "eEPSC",
+  save_output_as_RDS = "no",
+  baseline_interval = "t0to5",
+  ending_interval = "t25to30"
+)
+summary_male_eEPSC_df # what I will use in my summary data stuff and plots from now on
+
+# category 1 is naive, looking at glutamate
+# category 2 is 2 hour cold exposed, looking at glutamate
+# category 3 is 2 hour noise exposure, looking at glutamate
+```
+
+testing assumptions for female naive summary data
 ```{r}
 naive_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")) %>%
@@ -250,7 +316,33 @@ shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 # all p-values are greater than 0.05 -> fail to reject the null hypothesis that they are normally distributed -> the data is normally distributed
 ```
 
-testing assumptions for cold summary data
+testing assumptions for male naive summary data
+```{r}
+# newly done, idk if its all good
+naive_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>%
+  filter(category == "1") %>%
+  mutate(
+    naive_difference0to5_vs_25to30 = t25to30 - t0to5,
+    naive_difference0to5_vs_20to25 = t20to25 - t0to5,
+    naive_difference0to5_vs_15to20 = t15to20 - t0to5,
+    naive_difference0to5_vs_10to15 = t10to15 - t0to5,
+    naive_difference0to5_vs_5to10 = t5to10 - t0to5,
+         )
+
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_25to30)
+
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_20to25)
+
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_15to20)
+
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_10to15)
+
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
+
+# none of the male data is normally distributed
+```
+
+testing assumptions for female cold summary data
 ```{r}
 cold_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9")) %>%
@@ -284,7 +376,7 @@ qqline(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 
 # only the 5 to 10 minute period has a p-value less than 0.05
 ```
-testing assumptions for noise summary data
+testing assumptions for female noise summary data
 ```{r}
 noise_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("RMNC1", "RMNC1", "RMNC3", "RMNC4")) %>%
@@ -698,7 +790,7 @@ baseline_PPR_summary
 
 
 Violin Plot Comparing Baselines:
-```{r}
+```{r eval=FALSE}
 summary_female_eEPSC_df$percent_change_data %>%
   filter(sex == "Female") %>%
   filter(treatment == "Control") %>%
