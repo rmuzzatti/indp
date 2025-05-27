@@ -558,7 +558,7 @@ t_test_male_noise_full <-perform_t_tests_for_summary_plot(
   parameter = "amplitude",
   baseline_interval = "t0to5",
   interval_length = 5,
-  treatment_colour_theme = my_theme_colours,
+  treatment_colour_theme =  my_theme_colours,
   save_output_as_RDS = "no"
 )
 
@@ -566,7 +566,7 @@ t_test_male_noise_full
 ```
 
 
-Naive FEMALE Summary:
+Naive Summary:
 ```{r}
 naive_summary_plot <- plot_summary_current_data(
   data = pruned_eEPSC_df$all_cells,
@@ -576,11 +576,21 @@ naive_summary_plot <- plot_summary_current_data(
   y_variable = "amplitude",
   hormone_added = "HFS",
   hormone_or_HFS_start_time = 5,
+  # legend_position = "right",
+  # legend_position_inside = c(0.13, 0.15),
+  # male_label = "Male", 
+  # female_label = "Female",
   included_sexes = "both",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
+  # position_dodge_size = 0, 
+  # annotation_x_min = 1, 
+  # annotation_x_max = 8, 
+  # annotation_y_min = 0, 
+  # annotation_y_max = 40,
   y_axis_limit = 250, # 250 was better for scale next to the cold summary plot, but 400 is better to compare to a representative cell so idk
   signif_stars = "yes",
+  # significance_display_method = "stars",
   geom_signif_text_size = 8,
   t_test_df = t_test_female_naive_full, # need male t-test too
   large_axis_text = "no",
@@ -596,7 +606,7 @@ naive_summary_plot
 # ggsave(naive_summary_plot, path = here("Figures"), file = "naive_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
-Cold Summary FEMALE:
+Cold Summary:
 only for the full cells
 ```{r}
 cold_summary_plot <- plot_summary_current_data(
@@ -628,7 +638,7 @@ cold_summary_plot
 # ggsave(cold_summary_plot, path = here("Figures"), file = "cold_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
-NOISE Summary female:
+NOISE Summary:
 ```{r}
 noise_summary_plot <- plot_summary_current_data(
   data = pruned_eEPSC_df$all_cells,
