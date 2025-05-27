@@ -58,10 +58,13 @@ how many cold cells
 raw_eEPSC_df %>%
   filter(category == 2) %>%
   filter(treatment == "Control") %>%
+  filter(synapses == "Glutamate") %>%
   filter(time == 0) %>%
  group_by(treatment) %>%
   count(sex) %>%
-  arrange(treatment, sex)
+  arrange(treatment, sex) # just counting
+
+# unique(raw_eEPSC_df$letter[raw_eEPSC_df$category == "2"][raw_eEPSC_df$treatment == "Control"][raw_eEPSC_df$synapses == "Glutamate"]) # print which letters they are
 ```
 
 how many noise cells
@@ -69,20 +72,26 @@ how many noise cells
 raw_eEPSC_df %>%
   filter(category == 3) %>%
   filter(treatment == "Control") %>%
+  filter(synapses == "Glutamate") %>%
   filter(time == 0) %>%
  group_by(treatment) %>%
   count(sex) %>%
   arrange(treatment, sex)
+
+# unique(raw_eEPSC_df$letter[raw_eEPSC_df$category == "3"][raw_eEPSC_df$treatment == "Control"][raw_eEPSC_df$synapses == "Glutamate"]) # print which letters they are
 ```
 how many naive cells
 ```{r}
 raw_eEPSC_df %>%
   filter(category == 1) %>%
   filter(treatment == "Control") %>%
+  filter(synapses == "Glutamate") %>%
   filter(time == 0) %>%
  group_by(treatment) %>%
   count(sex) %>%
   arrange(treatment, sex)
+
+#unique(raw_eEPSC_df$letter[raw_eEPSC_df$category == "1"][raw_eEPSC_df$treatment == "Control"][raw_eEPSC_df$synapses == "Glutamate"]) # print which MALE letters they are
 ```
 max recording length
 ```{r}
@@ -447,9 +456,11 @@ t_test_female_cold_full <- perform_t_tests_for_summary_plot(
 )
 t_test_female_cold_full
 ```
-Finding the short cell:
+Finding the short cells:
 ```{r}
 summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")) %>% group_by(letter) %>% summarize(max=max(time))
+
+summary_male_eEPSC_df$summary_data %>% group_by(letter) %>% summarize(max=max(time))
 ```
 
 t-test for noise (full cells only):
