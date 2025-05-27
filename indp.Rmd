@@ -222,12 +222,12 @@ raw_eEPSC_noise_plots
 ```
 
 
-Prune female FULL (30 minute) CELLS:
+Prune FULL (30 minute) CELLS:
 ```{r}
 # what does pruning do exactly ? I think it is averaging something but idk what
 
-pruned_female_eEPSC_df <- make_pruned_EPSC_data(
-  data = raw_eEPSC_df %>% filter(sex == "Female")%>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9","LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RMNC1", "RMNC1", "RMNC3", "RMNC4")),
+pruned_eEPSC_df <- make_pruned_EPSC_data(
+  data = raw_eEPSC_df %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RMNC1", "RMNC2", "RMNC3", "RMNC4", "AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9", "TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9", "TW24", "TW25", "TW26", "TW27")),
   current_type = "eEPSC",
   min_time_value = 0,
   max_time_value = 30,
@@ -235,24 +235,9 @@ pruned_female_eEPSC_df <- make_pruned_EPSC_data(
   interval_length = 1
 )
 
-pruned_female_eEPSC_df$individual_cells
+pruned_eEPSC_df$individual_cells
 ```
 
-Prune male CELLS:
-```{r}
-# what does pruning do exactly ? I think it is averaging something but idk what
-
-pruned_male_eEPSC_df <- make_pruned_EPSC_data(
-  data = raw_eEPSC_df %>% filter(sex == "Male"),
-  current_type = "eEPSC",
-  min_time_value = 0,
-  max_time_value = 30,
-  baseline_length = 5,
-  interval_length = 1
-)
-
-pruned_male_eEPSC_df$individual_cells
-```
 
 CELL GROUPS:
 ```{r eval=FALSE}
@@ -266,7 +251,7 @@ cold_female_long <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %i
 
 cold_female_short <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RM100", "RM101", "RM102", "RM103", "RM104"))
 
-nosie_female_long <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("RMNC1", "RMNC1", "RMNC3", "RMNC4"))
+nosie_female_long <- pruned_female_eEPSC_df$individual_cells %>% filter(letter %in% c("RMNC1", "RMNC2", "RMNC3", "RMNC4"))
 
 naive_male_long <- pruned_male_eEPSC_df$individual_cells %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9"))
 
@@ -274,14 +259,14 @@ cold_male_long <- pruned_male_eEPSC_df$individual_cells %>% filter(letter %in% c
 
 noise_male_long <- pruned_male_eEPSC_df$individual_cells %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27"))
 
-# all the long ones %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RMNC1", "RMNC1", "RMNC3", "RMNC4", "AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9", "TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9", "TW24", "TW25", "TW26", "TW27"))
+# all the long ones %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RMNC1", "RMNC2", "RMNC3", "RMNC4", "AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9", "TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9", "TW24", "TW25", "TW26", "TW27"))
 ```
 
 
 all cells FEMALE summary eEPSC data:
 ```{r}
 summary_eEPSC_df <- make_summary_EPSC_data(
-  data = raw_eEPSC_df %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RMNC1", "RMNC1", "RMNC3", "RMNC4", "AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9", "TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9", "TW24", "TW25", "TW26", "TW27")),
+  data = raw_eEPSC_df %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RMNC1", "RMNC2", "RMNC3", "RMNC4", "AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9", "TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9", "TW24", "TW25", "TW26", "TW27")),
   current_type = "eEPSC",
   save_output_as_RDS = "no",
   baseline_interval = "t0to5",
@@ -407,7 +392,7 @@ shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 testing assumptions for female noise summary data
 ```{r}
 noise_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>%
-  filter(letter %in% c("RMNC1", "RMNC1", "RMNC3", "RMNC4")) %>%
+  filter(letter %in% c("RMNC1", "RMNC2", "RMNC3", "RMNC4")) %>%
   mutate(
     noise_difference0to5_vs_25to30 = t25to30 - t0to5,
     noise_difference0to5_vs_20to25 = t20to25 - t0to5,
@@ -523,7 +508,7 @@ Finding the short cells:
 ```{r}
 summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")) %>% group_by(letter) %>% summarize(max=max(time))
 
-summary_male_eEPSC_df$summary_data %>% group_by(letter) %>% summarize(max=max(time))
+summary_eEPSC_df$summary_data %>% group_by(letter) %>% summarize(max=max(time))
 ```
 
 t-test for cold males:
@@ -548,7 +533,7 @@ t_test_male_cold
 t-test for noise (full cells only):
 ```{r}
 t_test_female_noise_full <-perform_t_tests_for_summary_plot(
-  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("RMNC1", "RMNC1", "RMNC3", "RMNC4")),
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("RMNC1", "RMNC2", "RMNC3", "RMNC4")),
   test_category = 3,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
@@ -597,7 +582,7 @@ naive_summary_plot <- plot_summary_current_data(
   y_axis_limit = 250, # 250 was better for scale next to the cold summary plot, but 400 is better to compare to a representative cell so idk
   signif_stars = "yes",
   geom_signif_text_size = 8,
-  t_test_df = t_test_female_naive_full,
+  t_test_df = t_test_female_naive_full, # need male t-test too
   large_axis_text = "no",
   legend_position = "inside",
   shade_intervals = "no",
@@ -629,7 +614,7 @@ cold_summary_plot <- plot_summary_current_data(
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
-  t_test_df = t_test_female_cold_full,
+  t_test_df = t_test_female_cold_full, # need male t-test too
   large_axis_text = "no",
   legend_position = "inside",
   shade_intervals = "no",
@@ -660,7 +645,7 @@ noise_summary_plot <- plot_summary_current_data(
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
-  t_test_df = t_test_female_noise_full,
+  t_test_df = t_test_female_noise_full, # need male t-test too
   large_axis_text = "no",
   legend_position = "inside",
   shade_intervals = "no",
