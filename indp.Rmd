@@ -382,7 +382,7 @@ shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10) # NOT norma
 qqnorm(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 qqline(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 
-# only the 5 to 10 minute period has a p-value less than 0.05
+# only the 5 to 10 minute period has a p-value less than 0.05 (not normal)
 ```
 testing assumptions for male cold summary data
 ```{r}
@@ -466,7 +466,7 @@ shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_10to15)
 
 shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
 
-# all is normally distributed
+# all are normally distributed
 ```
 
 
@@ -487,6 +487,24 @@ t_test_female_naive_full <-perform_t_tests_for_summary_plot(
 
 t_test_female_naive_full
 ```
+t-test for naive males:
+```{r eval=FALSE}
+t_test_male_naive <-perform_t_tests_for_summary_plot(
+  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in%time=max(30)), # need to filter for 30 minute cells
+  test_category = 1,
+  include_all_treatments = "no",
+  list_of_treatments = c("Control"),
+  current_type = "eEPSC",
+  parameter = "amplitude",
+  baseline_interval = "t0to5",
+  interval_length = 5,
+  treatment_colour_theme = my_theme_colours,
+  save_output_as_RDS = "no"
+)
+
+t_test_male_naive
+```
+
 
 t-test for cold (full cells only):
 ```{r}
