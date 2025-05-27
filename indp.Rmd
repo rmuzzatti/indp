@@ -96,6 +96,8 @@ raw_eEPSC_df %>%
 max recording length
 ```{r}
 raw_eEPSC_df %>% filter(treatment == "Control") %>%
+  filter(category == "2") %>%
+  filter(sex == "Male") %>%
   group_by(letter) %>%
   summarize(max_time = max(time))
 ```
@@ -327,7 +329,7 @@ shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 
 testing assumptions for male naive summary data
 ```{r}
-naive_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>%
+naive_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")) %>%
   filter(category == "1") %>%
   mutate(
     naive_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -347,7 +349,7 @@ shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_10to15)
 
 shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 
-# none of the male data is normally distributed
+# none of the male data is normally distributed except the last 5 min
 ```
 
 testing assumptions for female cold summary data
@@ -386,7 +388,7 @@ qqline(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 ```
 testing assumptions for male cold summary data
 ```{r}
-cold_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>%
+cold_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")) %>%
   filter(category == "2") %>%
   mutate(
     cold_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -406,7 +408,7 @@ shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_10to15)
 
 shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 
-# none of the male data is normally distributed except for the 0-15
+# none of the male data is normally distributed except for the 10-15
 ```
 
 testing assumptions for female noise summary data
@@ -446,7 +448,7 @@ qqline(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
 
 testing assumptions for male nosie summary data
 ```{r}
-noise_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>%
+noise_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")) %>%
   filter(category == "3") %>%
   mutate(
     noise_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -488,9 +490,9 @@ t_test_female_naive_full <-perform_t_tests_for_summary_plot(
 t_test_female_naive_full
 ```
 t-test for naive males:
-```{r eval=FALSE}
+```{r}
 t_test_male_naive <-perform_t_tests_for_summary_plot(
-  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c()), # don't know what cells are long enough
+  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")), # long naive males
   test_category = 1,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
@@ -531,6 +533,25 @@ summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3
 summary_male_eEPSC_df$summary_data %>% group_by(letter) %>% summarize(max=max(time))
 ```
 
+t-test for cold males:
+```{r}
+t_test_male_cold <-perform_t_tests_for_summary_plot(
+  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")), # long cold males
+  test_category = 2,
+  include_all_treatments = "no",
+  list_of_treatments = c("Control"),
+  current_type = "eEPSC",
+  parameter = "amplitude",
+  baseline_interval = "t0to5",
+  interval_length = 5,
+  treatment_colour_theme = my_theme_colours,
+  save_output_as_RDS = "no"
+)
+
+t_test_male_cold
+```
+
+
 t-test for noise (full cells only):
 ```{r}
 t_test_female_noise_full <-perform_t_tests_for_summary_plot(
@@ -547,6 +568,23 @@ t_test_female_noise_full <-perform_t_tests_for_summary_plot(
 )
 
 t_test_female_noise_full
+```
+t-test for MALE noise (full cells only):
+```{r}
+t_test_male_noise_full <-perform_t_tests_for_summary_plot(
+  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")),
+  test_category = 3,
+  include_all_treatments = "no",
+  list_of_treatments = c("Control"),
+  current_type = "eEPSC",
+  parameter = "amplitude",
+  baseline_interval = "t0to5",
+  interval_length = 5,
+  treatment_colour_theme = my_theme_colours,
+  save_output_as_RDS = "no"
+)
+
+t_test_male_noise_full
 ```
 
 
@@ -584,7 +622,7 @@ Cold Summary FEMALE:
 only for the full cells
 ```{r}
 cold_summary_plot <- plot_summary_current_data(
-  data = pruned_female_eEPSC_df$all_cells,
+  data = pruned_female_eEPSC_df$all_cells, # can I get both sexes on here if I pruned the data differently
   plot_category = 2,
   plot_treatment = "Control",
   current_type = "eEPSC",
@@ -686,19 +724,19 @@ testing assumptions for comparing PPR during baseline
 ```{r}
 # making the data frame
 
-PPR_plot_df <- female_PPR_df %>%
+female_PPR_plot_df <- female_PPR_df %>%
   filter(state == "Baseline") %>%
   group_by(category, letter) %>%
   summarize(mean_PPR = mean(PPR),
             n = n())
 
-shapiro.test(PPR_plot_df$mean_PPR)
+shapiro.test(female_PPR_plot_df$mean_PPR)
 
 # p value is greater than 0.05, data is normal
 ```
 
 ```{r}
-baseline_PPR_plot <- PPR_plot_df %>%
+female_baseline_PPR_plot <- female_PPR_plot_df %>%
  
 # factor so it is treated as a discrete variable
 ggplot(aes(x = factor(category), y = mean_PPR)) + 
@@ -755,7 +793,7 @@ ggplot(aes(x = factor(category), y = mean_PPR)) +
   patchclampplotteR_theme() +
   theme(legend.position = "none")
 
-baseline_PPR_plot
+female_baseline_PPR_plot
 
 # saving as png to figure folder
 # ggsave(baseline_PPR_plot, path = here("Figures"), file = "baseline_PPR_plot.png", width = 7, height = 5, units = "in", dpi = 300)
@@ -778,7 +816,7 @@ shapiro.test(baseline_plot_df$t0to5)
 
 box plot baselines:
 ```{r}
-baseline_amp_plot <- baseline_plot_df %>%
+female_baseline_amp_plot <- baseline_plot_df %>%
   ggplot(aes(x = factor(category), y = t0to5)) +  
 
 # the boxes
@@ -829,7 +867,7 @@ baseline_amp_plot <- baseline_plot_df %>%
   patchclampplotteR_theme() +
   theme(legend.position = "none")
 
-baseline_amp_plot
+female_baseline_amp_plot
 
 # saving as png to figure folder
 # ggsave(baseline_amp_plot, path = here("Figures"), file = "baseline_amp_plot.png", width = 7, height = 5, units = "in", dpi = 300)
@@ -837,7 +875,7 @@ baseline_amp_plot
 baseline means
 ```{r}
 # amplitude
-baseline_summary <- summary_female_eEPSC_df$percent_change_data %>%
+female_baseline_summary <- summary_female_eEPSC_df$percent_change_data %>%
   filter(sex == "Female",
          treatment == "Control",
          category %in% c(1, 2)) %>%
@@ -848,10 +886,10 @@ baseline_summary <- summary_female_eEPSC_df$percent_change_data %>%
     sd_t0to5 = sd(t0to5, na.rm = TRUE)
   )
 
-baseline_summary
+female_baseline_summary
 
 # PPR 
-baseline_PPR_summary <- female_PPR_df %>%
+female_baseline_PPR_summary <- female_PPR_df %>%
   filter(state == "Baseline", category %in% c(1, 2)) %>%
   group_by(category) %>%
   summarise(
@@ -860,7 +898,7 @@ baseline_PPR_summary <- female_PPR_df %>%
     sd_PPR = sd(PPR, na.rm = TRUE)
   )
 
-baseline_PPR_summary
+female_baseline_PPR_summary
 
 ```
 
