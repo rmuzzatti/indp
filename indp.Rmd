@@ -280,39 +280,24 @@ noise_male_long <- pruned_male_eEPSC_df$individual_cells %>% filter(letter %in% 
 
 all cells FEMALE summary eEPSC data:
 ```{r}
-summary_female_eEPSC_df <- make_summary_EPSC_data(
-  data = raw_eEPSC_df %>% filter(sex == "Female"),
+summary_eEPSC_df <- make_summary_EPSC_data(
+  data = raw_eEPSC_df %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10", "RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9", "RMNC1", "RMNC1", "RMNC3", "RMNC4", "AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9", "TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9", "TW24", "TW25", "TW26", "TW27")),
   current_type = "eEPSC",
   save_output_as_RDS = "no",
   baseline_interval = "t0to5",
   ending_interval = "t25to30"
 )
-summary_female_eEPSC_df # what I will use in my summary data stuff and plots from now on
+summary_eEPSC_df # what I will use in my summary data stuff and plots from now on
 
 # category 1 is naive, looking at glutamate
 # category 2 is 2 hour cold exposed, looking at glutamate
 # category 3 is 2 hour noise exposure, looking at glutamate
 ```
 
-all cells MALE summary eEPSC data:
-```{r}
-summary_male_eEPSC_df <- make_summary_EPSC_data(
-  data = raw_eEPSC_df %>% filter(sex == "Male") %>% filter(treatment == "Control") %>% filter(synapses == "Glutamate"), # because there is some GABA male data just to be safe
-  current_type = "eEPSC",
-  save_output_as_RDS = "no",
-  baseline_interval = "t0to5",
-  ending_interval = "t25to30"
-)
-summary_male_eEPSC_df # what I will use in my summary data stuff and plots from now on
-
-# category 1 is naive, looking at glutamate
-# category 2 is 2 hour cold exposed, looking at glutamate
-# category 3 is 2 hour noise exposure, looking at glutamate
-```
 
 testing assumptions for female naive summary data
 ```{r}
-naive_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
+naive_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")) %>%
   mutate(
     naive_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -337,7 +322,7 @@ shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 
 testing assumptions for male naive summary data
 ```{r}
-naive_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")) %>%
+naive_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")) %>%
   filter(category == "1") %>%
   mutate(
     naive_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -362,7 +347,7 @@ shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 
 testing assumptions for female cold summary data
 ```{r}
-cold_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
+cold_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9")) %>%
   mutate(
     cold_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -396,7 +381,7 @@ qqline(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 ```
 testing assumptions for male cold summary data
 ```{r}
-cold_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")) %>%
+cold_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")) %>%
   filter(category == "2") %>%
   mutate(
     cold_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -421,7 +406,7 @@ shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 
 testing assumptions for female noise summary data
 ```{r}
-noise_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
+noise_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("RMNC1", "RMNC1", "RMNC3", "RMNC4")) %>%
   mutate(
     noise_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -456,7 +441,7 @@ qqline(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
 
 testing assumptions for male nosie summary data
 ```{r}
-noise_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")) %>%
+noise_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")) %>%
   filter(category == "3") %>%
   mutate(
     noise_difference0to5_vs_25to30 = t25to30 - t0to5,
@@ -483,7 +468,7 @@ shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
 t-test for naive (full cells only):
 ```{r}
 t_test_female_naive_full <-perform_t_tests_for_summary_plot(
-  data = summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
   test_category = 1,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
@@ -500,7 +485,7 @@ t_test_female_naive_full
 t-test for naive males:
 ```{r}
 t_test_male_naive <-perform_t_tests_for_summary_plot(
-  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")), # long naive males
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")), # long naive males
   test_category = 1,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
@@ -521,7 +506,7 @@ t-test for cold (full cells only):
 # technically the one 5 to 10 min period does not pass assumptions for normality
 
 t_test_female_cold_full <- perform_t_tests_for_summary_plot(
-  data = summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9")),
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9")),
   test_category = 2,
   include_all_treatments = "yes",
   list_of_treatments = NULL,
@@ -536,7 +521,7 @@ t_test_female_cold_full
 ```
 Finding the short cells:
 ```{r}
-summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")) %>% group_by(letter) %>% summarize(max=max(time))
+summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")) %>% group_by(letter) %>% summarize(max=max(time))
 
 summary_male_eEPSC_df$summary_data %>% group_by(letter) %>% summarize(max=max(time))
 ```
@@ -544,7 +529,7 @@ summary_male_eEPSC_df$summary_data %>% group_by(letter) %>% summarize(max=max(ti
 t-test for cold males:
 ```{r}
 t_test_male_cold <-perform_t_tests_for_summary_plot(
-  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")), # long cold males
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")), # long cold males
   test_category = 2,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
@@ -563,7 +548,7 @@ t_test_male_cold
 t-test for noise (full cells only):
 ```{r}
 t_test_female_noise_full <-perform_t_tests_for_summary_plot(
-  data = summary_female_eEPSC_df$summary_data %>% filter(letter %in% c("RMNC1", "RMNC1", "RMNC3", "RMNC4")),
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("RMNC1", "RMNC1", "RMNC3", "RMNC4")),
   test_category = 3,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
@@ -580,7 +565,7 @@ t_test_female_noise_full
 t-test for MALE noise (full cells only):
 ```{r}
 t_test_male_noise_full <-perform_t_tests_for_summary_plot(
-  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")),
+  data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")),
   test_category = 3,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
@@ -599,7 +584,7 @@ t_test_male_noise_full
 Naive FEMALE Summary:
 ```{r}
 naive_summary_plot <- plot_summary_current_data(
-  data = pruned_female_eEPSC_df$all_cells,
+  data = pruned_eEPSC_df$all_cells,
   plot_category = 1,
   plot_treatment = "Control",
   current_type = "eEPSC",
@@ -630,7 +615,7 @@ Cold Summary FEMALE:
 only for the full cells
 ```{r}
 cold_summary_plot <- plot_summary_current_data(
-  data = pruned_female_eEPSC_df$all_cells, # can I get both sexes on here if I pruned the data differently
+  data = pruned_eEPSC_df$all_cells, # can I get both sexes on here if I pruned the data differently
   plot_category = 2,
   plot_treatment = "Control",
   current_type = "eEPSC",
@@ -661,7 +646,7 @@ cold_summary_plot
 NOISE Summary female:
 ```{r}
 noise_summary_plot <- plot_summary_current_data(
-  data = pruned_female_eEPSC_df$all_cells,
+  data = pruned_eEPSC_df$all_cells,
   plot_category = 3,
   plot_treatment = "Control",
   current_type = "eEPSC",
@@ -687,27 +672,6 @@ noise_summary_plot
 
 ```
 
-Cold post-HFS amplitude
-```{r}
-pruned_female_eEPSC_df$all_cells %>% filter(category == 2) %>%  
-  mutate(time_5min_interval = floor(time / 5) * 5) %>%  
-  group_by(time_5min_interval) %>% 
-  summarise(
-    mean_value = mean(mean_P1_all_cells, na.rm = TRUE), 
-    sd_value = sd(sd_P1_all_cells, na.rm = TRUE)    
-  )
-```
-
-naive post-HFS amplitude
-```{r}
-pruned_female_eEPSC_df$all_cells %>% filter(category == 1) %>%  
-  mutate(time_5min_interval = floor(time / 5) * 5) %>%  
-  group_by(time_5min_interval) %>% 
-  summarise(
-    mean_value = mean(mean_P1_all_cells, na.rm = TRUE), 
-    sd_value = sd(sd_P1_all_cells, na.rm = TRUE)    
-  )
-```
 
 look at what arguments a command has
 ```{r eval=FALSE}
