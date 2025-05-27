@@ -490,7 +490,7 @@ t_test_female_naive_full
 t-test for naive males:
 ```{r eval=FALSE}
 t_test_male_naive <-perform_t_tests_for_summary_plot(
-  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in%time=max(30)), # need to filter for 30 minute cells
+  data = summary_male_eEPSC_df$summary_data %>% filter(letter %in% c()), # don't know what cells are long enough
   test_category = 1,
   include_all_treatments = "no",
   list_of_treatments = c("Control"),
