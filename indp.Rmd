@@ -236,7 +236,7 @@ pruned_female_eEPSC_df <- make_pruned_EPSC_data(
 pruned_female_eEPSC_df$individual_cells
 ```
 
-Prune male FULL (30 minute) CELLS:
+Prune male CELLS:
 ```{r}
 # what does pruning do exactly ? I think it is averaging something but idk what
 
@@ -287,7 +287,7 @@ summary_female_eEPSC_df # what I will use in my summary data stuff and plots fro
 all cells MALE summary eEPSC data:
 ```{r}
 summary_male_eEPSC_df <- make_summary_EPSC_data(
-  data = raw_eEPSC_df %>% filter(sex == "Male") %>% filter(treatment == "Control"),
+  data = raw_eEPSC_df %>% filter(sex == "Male") %>% filter(treatment == "Control") %>% filter(synapses == "Glutamate"), # because there is some GABA male data just to be safe
   current_type = "eEPSC",
   save_output_as_RDS = "no",
   baseline_interval = "t0to5",
@@ -327,7 +327,6 @@ shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 
 testing assumptions for male naive summary data
 ```{r}
-# newly done, idk if its all good
 naive_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>%
   filter(category == "1") %>%
   mutate(
@@ -385,6 +384,31 @@ qqline(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 
 # only the 5 to 10 minute period has a p-value less than 0.05
 ```
+testing assumptions for male cold summary data
+```{r}
+cold_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>%
+  filter(category == "2") %>%
+  mutate(
+    cold_difference0to5_vs_25to30 = t25to30 - t0to5,
+    cold_difference0to5_vs_20to25 = t20to25 - t0to5,
+    cold_difference0to5_vs_15to20 = t15to20 - t0to5,
+    cold_difference0to5_vs_10to15 = t10to15 - t0to5,
+    cold_difference0to5_vs_5to10 = t5to10 - t0to5,
+         )
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_25to30)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_20to25)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_15to20)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_10to15)
+
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
+
+# none of the male data is normally distributed except for the 0-15
+```
+
 testing assumptions for female noise summary data
 ```{r}
 noise_difference_evoked_df <- summary_female_eEPSC_df$percent_change_data %>%
@@ -419,6 +443,32 @@ qqline(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
 
 # as of 4 cells, they are all normally distributed
 ```
+
+testing assumptions for male nosie summary data
+```{r}
+noise_difference_evoked_df <- summary_male_eEPSC_df$percent_change_data %>%
+  filter(category == "3") %>%
+  mutate(
+    noise_difference0to5_vs_25to30 = t25to30 - t0to5,
+    noise_difference0to5_vs_20to25 = t20to25 - t0to5,
+    noise_difference0to5_vs_15to20 = t15to20 - t0to5,
+    noise_difference0to5_vs_10to15 = t10to15 - t0to5,
+    noise_difference0to5_vs_5to10 = t5to10 - t0to5,
+         )
+
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_25to30)
+
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_20to25)
+
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_15to20)
+
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_10to15)
+
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
+
+# all is normally distributed
+```
+
 
 t-test for naive (full cells only):
 ```{r}
