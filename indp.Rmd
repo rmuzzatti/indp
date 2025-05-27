@@ -95,7 +95,7 @@ raw_eEPSC_df %>%
 ```
 max recording length
 ```{r}
-raw_eEPSC_df %>%
+raw_eEPSC_df %>% filter(treatment == "Control") %>%
   group_by(letter) %>%
   summarize(max_time = max(time))
 ```
