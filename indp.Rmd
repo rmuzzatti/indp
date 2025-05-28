@@ -484,6 +484,10 @@ t_test_male_naive <-perform_t_tests_for_summary_plot(
 
 t_test_male_naive
 ```
+t-test for naive females vs naive males
+```{r}
+
+```
 
 
 t-test for female cold (full cells only):
@@ -528,6 +532,10 @@ t_test_male_cold <-perform_t_tests_for_summary_plot(
 
 t_test_male_cold
 ```
+t-test for cold females vs cold males
+```{r}
+
+```
 
 
 t-test for female noise (full cells only):
@@ -563,6 +571,10 @@ t_test_male_noise_full <-perform_t_tests_for_summary_plot(
 )
 
 t_test_male_noise_full
+```
+t-test for noise females vs noise males
+```{r}
+
 ```
 
 
