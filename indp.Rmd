@@ -566,9 +566,9 @@ t_test_male_noise_full
 ```
 
 
-Naive Summary:
+Naive FEMALE Summary:
 ```{r}
-naive_summary_plot <- plot_summary_current_data(
+naive_female_summary_plot <- plot_summary_current_data(
   data = pruned_eEPSC_df$all_cells,
   plot_category = 1,
   plot_treatment = "Control",
@@ -580,7 +580,7 @@ naive_summary_plot <- plot_summary_current_data(
   # legend_position_inside = c(0.13, 0.15),
   # male_label = "Male", 
   # female_label = "Female",
-  included_sexes = "both",
+  included_sexes = "female",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
   # position_dodge_size = 0, 
@@ -600,11 +600,39 @@ naive_summary_plot <- plot_summary_current_data(
   theme_options = my_custom_theme_options
 ) #+ theme(legend.position = "none")
 
-naive_summary_plot
+naive_female_summary_plot
 
 # saving as png to figure folder
 # ggsave(naive_summary_plot, path = here("Figures"), file = "naive_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
+Naive MALE Summary:
+```{r}
+naive_male_summary_plot <- plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells,
+  plot_category = 1,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  included_sexes = "male",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  y_axis_limit = 250, 
+  signif_stars = "yes",
+  # significance_display_method = "stars",
+  geom_signif_text_size = 8,
+  t_test_df = t_test_male_naive,
+  large_axis_text = "no",
+  legend_position = "inside",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = my_custom_theme_options
+) #+ theme(legend.position = "none")
+
+naive_male_summary_plot
+```
+
 
 Cold Summary:
 only for the full cells
