@@ -632,10 +632,101 @@ naive_male_summary_plot <- plot_summary_current_data(
 
 naive_male_summary_plot
 ```
+Naive BOTH Summary:
+```{r}
+naive_summary_plot <- plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells,
+  plot_category = 1,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  # legend_position = "right",
+  # legend_position_inside = c(0.13, 0.15),
+  # male_label = "Male", 
+  # female_label = "Female",
+  included_sexes = "both",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  # position_dodge_size = 0, 
+  # annotation_x_min = 1, 
+  # annotation_x_max = 8, 
+  # annotation_y_min = 0, 
+  # annotation_y_max = 40,
+  y_axis_limit = 250, # 250 was better for scale next to the cold summary plot, but 400 is better to compare to a representative cell so idk
+  signif_stars = "yes",
+  # significance_display_method = "stars",
+  geom_signif_text_size = 8,
+  t_test_df = t_test_female_naive_full, # need new t-test female vs male
+  large_axis_text = "no",
+  legend_position = "inside",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = my_custom_theme_options
+) #+ theme(legend.position = "none")
 
+naive_summary_plot
 
-Cold Summary:
-only for the full cells
+# saving as png to figure folder
+# ggsave(naive_summary_plot, path = here("Figures"), file = "naive_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
+```
+Cold FEMALE Summary:
+```{r}
+cold_female_summary_plot <- plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells,
+  plot_category = 2,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  included_sexes = "female",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  y_axis_limit = 250, # 250 was better for scale next to the naive summary plot, but 400 is better to compare to a representative cell so idk
+  signif_stars = "yes",
+#  significance_display_method = "p-values",
+  geom_signif_text_size = 8,
+  t_test_df = t_test_female_cold_full,
+  large_axis_text = "no",
+  legend_position = "inside",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = my_custom_theme_options
+)
+
+cold_female_summary_plot
+```
+Cold MALE Summary:
+```{r}
+cold_male_summary_plot <- plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells, # can I get both sexes on here if I pruned the data differently
+  plot_category = 2,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  included_sexes = "male",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  y_axis_limit = 250, 
+  signif_stars = "yes",
+#  significance_display_method = "p-values",
+  geom_signif_text_size = 8,
+  t_test_df = t_test_male_cold,
+  large_axis_text = "no",
+  legend_position = "inside",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = my_custom_theme_options
+)
+
+cold_male_summary_plot
+```
+
+Cold  BOTH Summary:
 ```{r}
 cold_summary_plot <- plot_summary_current_data(
   data = pruned_eEPSC_df$all_cells, # can I get both sexes on here if I pruned the data differently
@@ -648,11 +739,11 @@ cold_summary_plot <- plot_summary_current_data(
   included_sexes = "both",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
-  y_axis_limit = 250, # 250 was better for scale next to the naive summary plot, but 400 is better to compare to a representative cell so idk
+  y_axis_limit = 250, 
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
-  t_test_df = t_test_female_cold_full, # need male t-test too
+  t_test_df = t_test_female_cold_full, # need diff t-test
   large_axis_text = "no",
   legend_position = "inside",
   shade_intervals = "no",
@@ -666,7 +757,66 @@ cold_summary_plot
 # ggsave(cold_summary_plot, path = here("Figures"), file = "cold_summary_plot.png", width = 7, height = 5, units = "in", dpi = 300)
 ```
 
-NOISE Summary:
+Noise FEMALE Summary:
+```{r}
+noise_female_summary_plot <- plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells,
+  plot_category = 3,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  included_sexes = "female",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  y_axis_limit = 250, 
+  signif_stars = "yes",
+#  significance_display_method = "p-values",
+  geom_signif_text_size = 8,
+  t_test_df = t_test_female_noise_full, # need male t-test too
+  large_axis_text = "no",
+  legend_position = "inside",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = my_custom_theme_options
+)
+
+noise_female_summary_plot
+
+```
+
+Noise MALE Summary:
+```{r}
+noise_male_summary_plot <- plot_summary_current_data(
+  data = pruned_eEPSC_df$all_cells,
+  plot_category = 3,
+  plot_treatment = "Control",
+  current_type = "eEPSC",
+  y_variable = "amplitude",
+  hormone_added = "HFS",
+  hormone_or_HFS_start_time = 5,
+  included_sexes = "male",
+  include_representative_trace = "no",
+  representative_trace_filename = import_ext_data("Control-trace.png"),
+  y_axis_limit = 250, 
+  signif_stars = "yes",
+#  significance_display_method = "p-values",
+  geom_signif_text_size = 8,
+  t_test_df = t_test_male_noise_full, # need male t-test too
+  large_axis_text = "no",
+  legend_position = "inside",
+  shade_intervals = "no",
+  treatment_colour_theme = my_theme_colours,
+  theme_options = my_custom_theme_options
+)
+
+noise_male_summary_plot
+
+```
+
+
+Noise BOTH Summary:
 ```{r}
 noise_summary_plot <- plot_summary_current_data(
   data = pruned_eEPSC_df$all_cells,
@@ -679,7 +829,7 @@ noise_summary_plot <- plot_summary_current_data(
   included_sexes = "both",
   include_representative_trace = "no",
   representative_trace_filename = import_ext_data("Control-trace.png"),
-  y_axis_limit = 250, # 250 was better for scale next to the naive summary plot, but 400 is better to compare to a representative cell so idk
+  y_axis_limit = 250, 
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
