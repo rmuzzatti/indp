@@ -280,7 +280,7 @@ summary_eEPSC_df # what I will use in my summary data stuff and plots from now o
 ```
 
 
-testing assumptions for female naive summary data
+testing assumptions for female naive summary data (full cells only)
 ```{r}
 naive_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")) %>%
@@ -305,7 +305,7 @@ shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
 # all p-values are greater than 0.05 -> fail to reject the null hypothesis that they are normally distributed -> the data is normally distributed
 ```
 
-testing assumptions for male naive summary data
+testing assumptions for male naive summary data (full cells only)
 ```{r}
 naive_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")) %>%
   filter(category == "1") %>%
@@ -317,20 +317,18 @@ naive_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(le
     naive_difference0to5_vs_5to10 = t5to10 - t0to5,
          )
 
-shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_25to30)
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_25to30) # normal
 
-shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_20to25)
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_20to25) # NOT normal
 
-shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_15to20)
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_15to20) # NOT normal
 
-shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_10to15)
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_10to15) # NOT normal
 
-shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10)
-
-# none of the male data is normally distributed except the last 5 min
+shapiro.test(naive_difference_evoked_df$naive_difference0to5_vs_5to10) # NOT normal
 ```
 
-testing assumptions for female cold summary data
+testing assumptions for female cold summary data (full cells only)
 ```{r}
 cold_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9")) %>%
@@ -364,7 +362,7 @@ qqline(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
 
 # only the 5 to 10 minute period has a p-value less than 0.05 (not normal)
 ```
-testing assumptions for male cold summary data
+testing assumptions for male cold summary data (full cells only)
 ```{r}
 cold_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")) %>%
   filter(category == "2") %>%
@@ -376,20 +374,18 @@ cold_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(let
     cold_difference0to5_vs_5to10 = t5to10 - t0to5,
          )
 
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_25to30)
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_25to30) # NOT normal
 
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_20to25)
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_20to25) # NOT normal
 
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_15to20)
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_15to20) # NOT normal
 
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_10to15)
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_10to15) # NOT normal
 
-shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10)
-
-# none of the male data is normally distributed except for the 10-15
+shapiro.test(cold_difference_evoked_df$cold_difference0to5_vs_5to10) # normal
 ```
 
-testing assumptions for female noise summary data
+testing assumptions for female noise summary data  (full cells only )
 ```{r}
 noise_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>%
   filter(letter %in% c("RMNC1", "RMNC2", "RMNC3", "RMNC4")) %>%
@@ -424,7 +420,7 @@ qqline(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
 # as of 4 cells, they are all normally distributed
 ```
 
-testing assumptions for male nosie summary data
+testing assumptions for male nosie summary data (full cells only)
 ```{r}
 noise_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")) %>%
   filter(category == "3") %>%
@@ -436,22 +432,22 @@ noise_difference_evoked_df <- summary_eEPSC_df$percent_change_data %>% filter(le
     noise_difference0to5_vs_5to10 = t5to10 - t0to5,
          )
 
-shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_25to30)
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_25to30) # normal
 
-shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_20to25)
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_20to25) # normal
 
-shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_15to20)
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_15to20) # normal
 
-shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_10to15)
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_10to15) # normal
 
-shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_5to10)
-
-# all are normally distributed
+shapiro.test(noise_difference_evoked_df$noise_difference0to5_vs_5to10) # normal
 ```
 
 
 t-test for female naive (full cells only):
 ```{r}
+# all female naive data is normal
+
 t_test_female_naive_full <-perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("LS1", "LS2", "LS3", "LS4", "LS5", "LS6", "LS7", "LS8", "LS9", "LS10")),
   test_category = 1,
@@ -469,6 +465,8 @@ t_test_female_naive_full
 ```
 t-test for naive males:
 ```{r}
+# no male naive data is normal except for the last 5 min
+
 t_test_male_naive <-perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("AV", "AW", "KMC8", "KMCL6", "KMCL9", "KML12", "KML5", "KML9")), # long naive males
   test_category = 1,
@@ -492,7 +490,7 @@ t-test for naive females vs naive males
 
 t-test for female cold (full cells only):
 ```{r}
-# technically the one 5 to 10 min period does not pass assumptions for normality
+#  only the 5 to 10 min period does not pass assumptions for normality
 
 t_test_female_cold_full <- perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM6", "RM7", "RM8", "RM9")),
@@ -508,15 +506,11 @@ t_test_female_cold_full <- perform_t_tests_for_summary_plot(
 )
 t_test_female_cold_full
 ```
-Finding the short cells:
-```{r}
-summary_eEPSC_df$summary_data %>% filter(letter %in% c("RM1", "RM2", "RM3", "RM4", "RM5", "RM6", "RM7", "RM8", "RM9")) %>% group_by(letter) %>% summarize(max=max(time))
-
-summary_eEPSC_df$summary_data %>% group_by(letter) %>% summarize(max=max(time))
-```
 
 t-test for cold males:
 ```{r}
+# only the 5-10 min period is normal
+
 t_test_male_cold <-perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("TW15", "TW17", "TW18", "TW19", "TW2", "TW20", "TW21", "TW3", "TW37", "TW38", "TW4", "TW4", "TW8", "TW9")), # long cold males
   test_category = 2,
@@ -540,6 +534,8 @@ t-test for cold females vs cold males
 
 t-test for female noise (full cells only):
 ```{r}
+# all female noise data is normal
+
 t_test_female_noise_full <-perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("RMNC1", "RMNC2", "RMNC3", "RMNC4")),
   test_category = 3,
@@ -557,6 +553,8 @@ t_test_female_noise_full
 ```
 t-test for MALE noise (full cells only):
 ```{r}
+# all male noise data is normal
+
 t_test_male_noise_full <-perform_t_tests_for_summary_plot(
   data = summary_eEPSC_df$summary_data %>% filter(letter %in% c("TW24", "TW25", "TW26", "TW27")),
   test_category = 3,
