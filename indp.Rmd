@@ -774,7 +774,7 @@ noise_female_summary_plot <- plot_summary_current_data(
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
-  t_test_df = t_test_female_noise_full, # need male t-test too
+  t_test_df = t_test_female_noise_full, 
   large_axis_text = "no",
   legend_position = "inside",
   shade_intervals = "no",
@@ -803,7 +803,7 @@ noise_male_summary_plot <- plot_summary_current_data(
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
-  t_test_df = t_test_male_noise_full, # need male t-test too
+  t_test_df = t_test_male_noise_full, 
   large_axis_text = "no",
   legend_position = "inside",
   shade_intervals = "no",
@@ -833,7 +833,7 @@ noise_summary_plot <- plot_summary_current_data(
   signif_stars = "yes",
 #  significance_display_method = "p-values",
   geom_signif_text_size = 8,
-  t_test_df = t_test_female_noise_full, # need male t-test too
+  t_test_df = t_test_female_noise_full, # need diff t-test too
   large_axis_text = "no",
   legend_position = "inside",
   shade_intervals = "no",
